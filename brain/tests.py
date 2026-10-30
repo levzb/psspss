@@ -5,10 +5,10 @@ import unittest
 
 from .body import CELL, Body
 from .check import junctions, problems
-from .config import load_config
+from .config import flip_name, load_config
 from .memory import Memory
 from .sim import SCREEN, TERMINAL, DayUser, Sim, StillUser
-from .sprites import Sheet, skins
+from .sprites import Sheet, frame_diff, skins
 from .world import World
 
 
@@ -41,6 +41,8 @@ class Generated(Base):
             sheet = Sheet(path, self.cfg['generated'])
             pal = sheet.palette()
             for name, recipe in self.cfg['generated'].items():
+                if recipe.get('tween') and '+' in path:    # in-betweens: the cats are enough (and quicker)
+                    continue
                 for i in range(len(recipe['from'])):
                     for ref in (f'@{name}:{i}', f'@{name}:{i}~'):
                         px = list(sheet.frame(ref).get_flattened_data())
@@ -48,6 +50,20 @@ class Generated(Base):
                             self.assertTrue({p[3] for p in px} <= {0, 255}, 'partial alpha')
                             self.assertTrue({p for p in px if p[3]} <= pal, 'color not in the sheet')
                             self.assertTrue(any(p[3] for p in px), 'empty frame')
+
+    def test_every_pose_change_is_smooth_or_a_cut_on_purpose(self):
+        cuts = {tuple(c.split('>')) for c in self.cfg['tween']['cut']}
+        for n, label in junctions(self.cfg):
+            if label.startswith('link') and 'on purpose' not in label:
+                self.assertLessEqual(n, 100, label)
+        for a, b, _ in self.cfg['links']:
+            with self.subTest(link=f'{a}>{b}'):
+                frames = self.cfg['transitions'].get(f'{a}>{b}')
+                if frames is None and not ({(a, b), (b, a), (flip_name(a), flip_name(b)), (flip_name(b), flip_name(a))} & cuts):
+                    sheet = Sheet(self.cfg['sheet'], self.cfg['generated'])
+                    self.assertLess(frame_diff(sheet.frame(self.cfg['poses'][a]), sheet.frame(self.cfg['poses'][b])), 30)
+                elif frames is not None:
+                    self.assertEqual(frames[::-1], self.cfg['transitions'][f'{b}>{a}'])
 
     def test_stalk_is_lower_than_standing(self):
         sheet = Sheet(self.cfg['sheet'], self.cfg['generated'])
@@ -152,6 +168,18 @@ class Behaviour(Base):
 
 
 class InTerminal(Base):
+    def test_only_the_part_inside_its_window_and_not_covered_shows(self):
+        from .app import hidden_rects
+        cat = (100, 100, 96, 96)
+        term = (7, 1, (0, 0, 500, 500))
+        self.assertEqual(hidden_rects(cat, [term], 7), [])                       # all of it inside, in front
+        browser = (9, 2, (150, 0, 900, 900))
+        self.assertEqual(hidden_rects(cat, [browser, term], 7), [(50, 0, 46, 96)])  # its right half is under it
+        self.assertEqual(hidden_rects(cat, [term, browser], 7), [])              # the browser is behind
+        self.assertEqual(hidden_rects((450, 100, 96, 96), [term], 7), [(50, 0, 46, 96)])   # sticks out of the window
+        self.assertEqual(hidden_rects(cat, [browser], 7), [(0, 0, 96, 96)])     # its window is not on screen
+
+
     def test_floor_and_shelves(self):
         w = World((0, 0, 200, 100), [(0, 60, 100, 65), (0, 55, 150, 60)])
         self.assertFalse(w.free(50, 62))                 # in the text

@@ -1,0 +1,1119 @@
+{
+ "note": "made by `pet.py tween` (brain/tween.py): in-between frames for every pose link",
+ "transitions": {
+  "stand_uL>stand_B": [
+   "@tw0:0",
+   "@tw1:0"
+  ],
+  "stand_B>stand_uL": [
+   "@tw1:0",
+   "@tw0:0"
+  ],
+  "stand_L>lower_L": [
+   "@tw2:0",
+   "@tw3:0"
+  ],
+  "lower_L>stand_L": [
+   "@tw3:0",
+   "@tw2:0"
+  ],
+  "lower_L>stalk_L": [
+   "@tw4:0",
+   "@tw5:0"
+  ],
+  "stalk_L>lower_L": [
+   "@tw5:0",
+   "@tw4:0"
+  ],
+  "stand_F>crouch_F": [
+   "@tw6:0",
+   "@tw7:0"
+  ],
+  "crouch_F>stand_F": [
+   "@tw7:0",
+   "@tw6:0"
+  ],
+  "sleep_L>back_L": [
+   "@tw8:0",
+   "@tw9:0"
+  ],
+  "back_L>sleep_L": [
+   "@tw9:0",
+   "@tw8:0"
+  ],
+  "sleep_L>curl_L": [
+   "@tw10:0",
+   "@tw11:0"
+  ],
+  "curl_L>sleep_L": [
+   "@tw11:0",
+   "@tw10:0"
+  ],
+  "stand_L>sit_L": [
+   "@tw12:0",
+   "@tw13:0"
+  ],
+  "sit_L>stand_L": [
+   "@tw13:0",
+   "@tw12:0"
+  ],
+  "sit_L>lieside_L": [
+   "@tw14:0",
+   "@tw15:0"
+  ],
+  "lieside_L>sit_L": [
+   "@tw15:0",
+   "@tw14:0"
+  ],
+  "stand_R>stand_dR": [
+   "@tw16:0",
+   "@tw17:0",
+   "@tw18:0"
+  ],
+  "stand_dR>stand_R": [
+   "@tw18:0",
+   "@tw17:0",
+   "@tw16:0"
+  ],
+  "stand_dR>stand_F": [
+   "@tw19:0",
+   "@tw20:0",
+   "@tw21:0"
+  ],
+  "stand_F>stand_dR": [
+   "@tw21:0",
+   "@tw20:0",
+   "@tw19:0"
+  ],
+  "stand_R>stand_uR": [
+   "@tw22:0",
+   "@tw23:0"
+  ],
+  "stand_uR>stand_R": [
+   "@tw23:0",
+   "@tw22:0"
+  ],
+  "stand_uR>stand_B": [
+   "@tw24:0",
+   "@tw25:0"
+  ],
+  "stand_B>stand_uR": [
+   "@tw25:0",
+   "@tw24:0"
+  ],
+  "stand_R>lower_R": [
+   "@tw26:0",
+   "@tw27:0"
+  ],
+  "lower_R>stand_R": [
+   "@tw27:0",
+   "@tw26:0"
+  ],
+  "lower_R>stalk_R": [
+   "@tw28:0",
+   "@tw29:0"
+  ],
+  "stalk_R>lower_R": [
+   "@tw29:0",
+   "@tw28:0"
+  ],
+  "sit_F>loaf_R": [
+   "@tw30:0",
+   "@tw31:0",
+   "@tw32:0"
+  ],
+  "loaf_R>sit_F": [
+   "@tw32:0",
+   "@tw31:0",
+   "@tw30:0"
+  ],
+  "sleep_R>back_R": [
+   "@tw33:0",
+   "@tw34:0"
+  ],
+  "back_R>sleep_R": [
+   "@tw34:0",
+   "@tw33:0"
+  ],
+  "sleep_R>curl_R": [
+   "@tw35:0",
+   "@tw36:0"
+  ],
+  "curl_R>sleep_R": [
+   "@tw36:0",
+   "@tw35:0"
+  ],
+  "sleep_R>stretch_R": [
+   "@tw37:0",
+   "@tw38:0"
+  ],
+  "stretch_R>sleep_R": [
+   "@tw38:0",
+   "@tw37:0"
+  ],
+  "stand_R>sit_R": [
+   "@tw39:0",
+   "@tw40:0"
+  ],
+  "sit_R>stand_R": [
+   "@tw40:0",
+   "@tw39:0"
+  ],
+  "sit_R>lieside_R": [
+   "@tw41:0",
+   "@tw42:0"
+  ],
+  "lieside_R>sit_R": [
+   "@tw42:0",
+   "@tw41:0"
+  ]
+ },
+ "generated": {
+  "tw0": {
+   "from": [
+    "1:7"
+   ],
+   "ops": [
+    [
+     "graft",
+     "1:1",
+     0,
+     22,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "1:7",
+     "1:1"
+    ]
+   ],
+   "note": "1:7 with rows 22-32 of 1:1, loose bits dropped",
+   "tween": true
+  },
+  "tw1": {
+   "from": [
+    "1:7"
+   ],
+   "ops": [
+    [
+     "graft",
+     "1:1",
+     0,
+     16,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "1:7",
+     "1:1"
+    ]
+   ],
+   "note": "1:7 with rows 16-32 of 1:1, loose bits dropped",
+   "tween": true
+  },
+  "tw2": {
+   "from": [
+    "1:2"
+   ],
+   "ops": [
+    [
+     "graft",
+     "@lower_L:0",
+     0,
+     0,
+     12,
+     32
+    ],
+    [
+     "tidy",
+     "1:2",
+     "@lower_L:0"
+    ]
+   ],
+   "note": "1:2 with columns 0-12 of @lower_L:0, loose bits dropped",
+   "tween": true
+  },
+  "tw3": {
+   "from": [
+    "1:2"
+   ],
+   "ops": [
+    [
+     "graft",
+     "@lower_L:0",
+     0,
+     0,
+     20,
+     32
+    ],
+    [
+     "tidy",
+     "1:2",
+     "@lower_L:0"
+    ]
+   ],
+   "note": "1:2 with columns 0-20 of @lower_L:0, loose bits dropped",
+   "tween": true
+  },
+  "tw4": {
+   "from": [
+    "@lower_L:0"
+   ],
+   "ops": [
+    [
+     "graft",
+     "@stalk_L:0",
+     0,
+     0,
+     12,
+     32
+    ],
+    [
+     "tidy",
+     "@lower_L:0",
+     "@stalk_L:0"
+    ]
+   ],
+   "note": "@lower_L:0 with columns 0-12 of @stalk_L:0, loose bits dropped",
+   "tween": true
+  },
+  "tw5": {
+   "from": [
+    "@lower_L:0"
+   ],
+   "ops": [
+    [
+     "graft",
+     "@stalk_L:0",
+     0,
+     0,
+     20,
+     32
+    ],
+    [
+     "tidy",
+     "@lower_L:0",
+     "@stalk_L:0"
+    ]
+   ],
+   "note": "@lower_L:0 with columns 0-20 of @stalk_L:0, loose bits dropped",
+   "tween": true
+  },
+  "tw6": {
+   "from": [
+    "1:0"
+   ],
+   "ops": [
+    [
+     "graft",
+     "2:0",
+     0,
+     18,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "1:0",
+     "2:0"
+    ]
+   ],
+   "note": "1:0 with rows 18-32 of 2:0, loose bits dropped",
+   "tween": true
+  },
+  "tw7": {
+   "from": [
+    "1:0"
+   ],
+   "ops": [
+    [
+     "graft",
+     "2:0",
+     0,
+     12,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "1:0",
+     "2:0"
+    ]
+   ],
+   "note": "1:0 with rows 12-32 of 2:0, loose bits dropped",
+   "tween": true
+  },
+  "tw8": {
+   "from": [
+    "3:2"
+   ],
+   "ops": [
+    [
+     "graft",
+     "3:4",
+     18,
+     0,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "3:2",
+     "3:4"
+    ]
+   ],
+   "note": "3:2 with columns 18-32 of 3:4, loose bits dropped",
+   "tween": true
+  },
+  "tw9": {
+   "from": [
+    "3:2"
+   ],
+   "ops": [
+    [
+     "graft",
+     "3:4",
+     12,
+     0,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "3:2",
+     "3:4"
+    ]
+   ],
+   "note": "3:2 with columns 12-32 of 3:4, loose bits dropped",
+   "tween": true
+  },
+  "tw10": {
+   "from": [
+    "3:2"
+   ],
+   "ops": [
+    [
+     "graft",
+     "3:6",
+     0,
+     0,
+     32,
+     14
+    ],
+    [
+     "tidy",
+     "3:2",
+     "3:6"
+    ]
+   ],
+   "note": "3:2 with rows 0-14 of 3:6, loose bits dropped",
+   "tween": true
+  },
+  "tw11": {
+   "from": [
+    "3:2"
+   ],
+   "ops": [
+    [
+     "graft",
+     "3:6",
+     0,
+     0,
+     32,
+     18
+    ],
+    [
+     "tidy",
+     "3:2",
+     "3:6"
+    ]
+   ],
+   "note": "3:2 with rows 0-18 of 3:6, loose bits dropped",
+   "tween": true
+  },
+  "tw12": {
+   "from": [
+    "1:2"
+   ],
+   "ops": [
+    [
+     "graft",
+     "0:2",
+     22,
+     0,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "1:2",
+     "0:2"
+    ]
+   ],
+   "note": "1:2 with columns 22-32 of 0:2, loose bits dropped",
+   "tween": true
+  },
+  "tw13": {
+   "from": [
+    "1:2"
+   ],
+   "ops": [
+    [
+     "graft",
+     "0:2",
+     14,
+     0,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "1:2",
+     "0:2"
+    ]
+   ],
+   "note": "1:2 with columns 14-32 of 0:2, loose bits dropped",
+   "tween": true
+  },
+  "tw14": {
+   "from": [
+    "0:2"
+   ],
+   "ops": [
+    [
+     "graft",
+     "2:2",
+     0,
+     0,
+     32,
+     12
+    ],
+    [
+     "tidy",
+     "0:2",
+     "2:2"
+    ]
+   ],
+   "note": "0:2 with rows 0-12 of 2:2, loose bits dropped",
+   "tween": true
+  },
+  "tw15": {
+   "from": [
+    "0:2"
+   ],
+   "ops": [
+    [
+     "graft",
+     "2:2",
+     0,
+     0,
+     32,
+     18
+    ],
+    [
+     "tidy",
+     "0:2",
+     "2:2"
+    ]
+   ],
+   "note": "0:2 with rows 0-18 of 2:2, loose bits dropped",
+   "tween": true
+  },
+  "tw16": {
+   "from": [
+    "1:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "1:4~",
+     0,
+     0,
+     12,
+     32
+    ],
+    [
+     "tidy",
+     "1:2~",
+     "1:4~"
+    ]
+   ],
+   "note": "1:2~ with columns 0-12 of 1:4~, loose bits dropped",
+   "tween": true
+  },
+  "tw17": {
+   "from": [
+    "1:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "1:4~",
+     0,
+     0,
+     16,
+     32
+    ],
+    [
+     "tidy",
+     "1:2~",
+     "1:4~"
+    ]
+   ],
+   "note": "1:2~ with columns 0-16 of 1:4~, loose bits dropped",
+   "tween": true
+  },
+  "tw18": {
+   "from": [
+    "1:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "1:4~",
+     0,
+     0,
+     20,
+     32
+    ],
+    [
+     "tidy",
+     "1:2~",
+     "1:4~"
+    ]
+   ],
+   "note": "1:2~ with columns 0-20 of 1:4~, loose bits dropped",
+   "tween": true
+  },
+  "tw19": {
+   "from": [
+    "1:4~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "1:0",
+     0,
+     0,
+     32,
+     10
+    ],
+    [
+     "tidy",
+     "1:4~",
+     "1:0"
+    ]
+   ],
+   "note": "1:4~ with rows 0-10 of 1:0, loose bits dropped",
+   "tween": true
+  },
+  "tw20": {
+   "from": [
+    "1:4~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "1:0",
+     0,
+     0,
+     32,
+     14
+    ],
+    [
+     "tidy",
+     "1:4~",
+     "1:0"
+    ]
+   ],
+   "note": "1:4~ with rows 0-14 of 1:0, loose bits dropped",
+   "tween": true
+  },
+  "tw21": {
+   "from": [
+    "1:4~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "1:0",
+     0,
+     0,
+     32,
+     18
+    ],
+    [
+     "tidy",
+     "1:4~",
+     "1:0"
+    ]
+   ],
+   "note": "1:4~ with rows 0-18 of 1:0, loose bits dropped",
+   "tween": true
+  },
+  "tw22": {
+   "from": [
+    "1:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "1:7~",
+     0,
+     18,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "1:2~",
+     "1:7~"
+    ]
+   ],
+   "note": "1:2~ with rows 18-32 of 1:7~, loose bits dropped",
+   "tween": true
+  },
+  "tw23": {
+   "from": [
+    "1:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "1:7~",
+     0,
+     14,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "1:2~",
+     "1:7~"
+    ]
+   ],
+   "note": "1:2~ with rows 14-32 of 1:7~, loose bits dropped",
+   "tween": true
+  },
+  "tw24": {
+   "from": [
+    "1:7~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "1:1",
+     0,
+     18,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "1:7~",
+     "1:1"
+    ]
+   ],
+   "note": "1:7~ with rows 18-32 of 1:1, loose bits dropped",
+   "tween": true
+  },
+  "tw25": {
+   "from": [
+    "1:7~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "1:1",
+     0,
+     12,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "1:7~",
+     "1:1"
+    ]
+   ],
+   "note": "1:7~ with rows 12-32 of 1:1, loose bits dropped",
+   "tween": true
+  },
+  "tw26": {
+   "from": [
+    "1:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "@lower_L:0~",
+     20,
+     0,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "1:2~",
+     "@lower_L:0~"
+    ]
+   ],
+   "note": "1:2~ with columns 20-32 of @lower_L:0~, loose bits dropped",
+   "tween": true
+  },
+  "tw27": {
+   "from": [
+    "1:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "@lower_L:0~",
+     12,
+     0,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "1:2~",
+     "@lower_L:0~"
+    ]
+   ],
+   "note": "1:2~ with columns 12-32 of @lower_L:0~, loose bits dropped",
+   "tween": true
+  },
+  "tw28": {
+   "from": [
+    "@lower_L:0~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "@stalk_L:0~",
+     20,
+     0,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "@lower_L:0~",
+     "@stalk_L:0~"
+    ]
+   ],
+   "note": "@lower_L:0~ with columns 20-32 of @stalk_L:0~, loose bits dropped",
+   "tween": true
+  },
+  "tw29": {
+   "from": [
+    "@lower_L:0~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "@stalk_L:0~",
+     12,
+     0,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "@lower_L:0~",
+     "@stalk_L:0~"
+    ]
+   ],
+   "note": "@lower_L:0~ with columns 12-32 of @stalk_L:0~, loose bits dropped",
+   "tween": true
+  },
+  "tw30": {
+   "from": [
+    "0:0"
+   ],
+   "ops": [
+    [
+     "graft",
+     "3:0~",
+     24,
+     0,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "0:0",
+     "3:0~"
+    ]
+   ],
+   "note": "0:0 with columns 24-32 of 3:0~, loose bits dropped",
+   "tween": true
+  },
+  "tw31": {
+   "from": [
+    "0:0"
+   ],
+   "ops": [
+    [
+     "graft",
+     "3:0~",
+     18,
+     0,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "0:0",
+     "3:0~"
+    ]
+   ],
+   "note": "0:0 with columns 18-32 of 3:0~, loose bits dropped",
+   "tween": true
+  },
+  "tw32": {
+   "from": [
+    "0:0"
+   ],
+   "ops": [
+    [
+     "graft",
+     "3:0~",
+     14,
+     0,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "0:0",
+     "3:0~"
+    ]
+   ],
+   "note": "0:0 with columns 14-32 of 3:0~, loose bits dropped",
+   "tween": true
+  },
+  "tw33": {
+   "from": [
+    "3:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "3:4~",
+     18,
+     0,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "3:2~",
+     "3:4~"
+    ]
+   ],
+   "note": "3:2~ with columns 18-32 of 3:4~, loose bits dropped",
+   "tween": true
+  },
+  "tw34": {
+   "from": [
+    "3:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "3:4~",
+     12,
+     0,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "3:2~",
+     "3:4~"
+    ]
+   ],
+   "note": "3:2~ with columns 12-32 of 3:4~, loose bits dropped",
+   "tween": true
+  },
+  "tw35": {
+   "from": [
+    "3:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "3:6~",
+     0,
+     0,
+     32,
+     14
+    ],
+    [
+     "tidy",
+     "3:2~",
+     "3:6~"
+    ]
+   ],
+   "note": "3:2~ with rows 0-14 of 3:6~, loose bits dropped",
+   "tween": true
+  },
+  "tw36": {
+   "from": [
+    "3:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "3:6~",
+     0,
+     0,
+     32,
+     18
+    ],
+    [
+     "tidy",
+     "3:2~",
+     "3:6~"
+    ]
+   ],
+   "note": "3:2~ with rows 0-18 of 3:6~, loose bits dropped",
+   "tween": true
+  },
+  "tw37": {
+   "from": [
+    "3:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "3:9~",
+     24,
+     0,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "3:2~",
+     "3:9~"
+    ]
+   ],
+   "note": "3:2~ with columns 24-32 of 3:9~, loose bits dropped",
+   "tween": true
+  },
+  "tw38": {
+   "from": [
+    "3:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "3:9~",
+     14,
+     0,
+     32,
+     32
+    ],
+    [
+     "tidy",
+     "3:2~",
+     "3:9~"
+    ]
+   ],
+   "note": "3:2~ with columns 14-32 of 3:9~, loose bits dropped",
+   "tween": true
+  },
+  "tw39": {
+   "from": [
+    "1:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "0:2~",
+     0,
+     0,
+     10,
+     32
+    ],
+    [
+     "tidy",
+     "1:2~",
+     "0:2~"
+    ]
+   ],
+   "note": "1:2~ with columns 0-10 of 0:2~, loose bits dropped",
+   "tween": true
+  },
+  "tw40": {
+   "from": [
+    "1:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "0:2~",
+     0,
+     0,
+     18,
+     32
+    ],
+    [
+     "tidy",
+     "1:2~",
+     "0:2~"
+    ]
+   ],
+   "note": "1:2~ with columns 0-18 of 0:2~, loose bits dropped",
+   "tween": true
+  },
+  "tw41": {
+   "from": [
+    "0:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "2:2~",
+     0,
+     0,
+     32,
+     12
+    ],
+    [
+     "tidy",
+     "0:2~",
+     "2:2~"
+    ]
+   ],
+   "note": "0:2~ with rows 0-12 of 2:2~, loose bits dropped",
+   "tween": true
+  },
+  "tw42": {
+   "from": [
+    "0:2~"
+   ],
+   "ops": [
+    [
+     "graft",
+     "2:2~",
+     0,
+     0,
+     32,
+     18
+    ],
+    [
+     "tidy",
+     "0:2~",
+     "2:2~"
+    ]
+   ],
+   "note": "0:2~ with rows 0-18 of 2:2~, loose bits dropped",
+   "tween": true
+  }
+ }
+}

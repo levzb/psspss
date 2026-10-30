@@ -5,6 +5,7 @@ import re
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CONFIG = os.path.join(HERE, 'anim.json')
+TRANSITIONS = os.path.join(HERE, 'transitions.json')     # made by `pet.py tween`
 RANGE = re.compile(r'(\d+:|@\w+:)(\d+)-(\d+)(~?)')
 
 
@@ -38,9 +39,15 @@ def per_frame(clip, key, n, default=0):
     return v
 
 
-def load_config(path=CONFIG):
+def load_config(path=CONFIG, transitions=TRANSITIONS):
     with open(path) as f:
         cfg = json.load(f)
+    cfg['transitions'] = {}
+    if transitions and os.path.exists(transitions):
+        with open(transitions) as f:
+            tw = json.load(f)
+        cfg['transitions'] = tw['transitions']
+        cfg['generated'].update(tw['generated'])
     for recipe in cfg.get('generated', {}).values():
         recipe['from'] = [r for ref in recipe['from'] for r in expand_ref(ref)]
     for name, clip in cfg['clips'].items():
@@ -71,6 +78,9 @@ def expand_mirrors(cfg):
         if (fa, fb) not in seen:
             cfg['links'].append([fa, fb, ms])
             seen.add((fa, fb))
+    blinks = cfg.get('blink', {}).get('frames', {})
+    for name, ref in list(blinks.items()):
+        blinks.setdefault(flip_name(name), flip_ref(ref))
     for name, opts in list(cfg['behaviour'].items()):
         cfg['behaviour'].setdefault(flip_name(name), flip_steps(opts))
     for name, seqs in list(cfg['on_click'].items()):

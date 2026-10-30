@@ -100,11 +100,11 @@ class Mind:
         z, world = self.m['zoomies'], self.body.world
         return {
             'sleep': sleep,
-            'rest': 0.6 + 0.8 * (1 - e),
-            'wander': 0.2 + 0.8 * b + 0.3 * e if e > 0.2 else 0.05,
+            'rest': 0.7 + 0.8 * (1 - e),
+            'wander': 0.3 + 0.8 * b + 0.4 * e if e > 0.2 else 0.05,
             'visit': (2 * a if a > self.m['visit']['affection'] and s.window and self.cooled('visit')
                       and world is None else 0),       # in a Terminal window it is at your window already
-            'climb': (0.2 + 0.6 * b if world is not None and e > self.m['climb']['energy']
+            'climb': (0.3 + 0.6 * b if world is not None and e > self.m['climb']['energy']
                       and self.cooled('climb') else 0),
             'zoomies': 1.5 if (in_hours(s.hour, self.m['evening']) and e > z['energy'] and self.cooled('zoomies')
                                and self.rng.random() < z['chance']) else 0,
@@ -195,7 +195,7 @@ class Mind:
             side = 'L' if b.facing() < 0 else 'R'
             spot = rng.choices(['sit_F', f'loaf_{side}', f'sit_{side}', f'lieside_{side}'], [5, 3, 1, 1])[0]
             yield from b.go(spot)
-        yield from b.behave(rng.randint(3, 8), allow=lambda o: o.get('go', 'sit_').startswith(REST_POSES))
+        yield from b.behave(rng.randint(2, 6), allow=lambda o: o.get('go', 'sit_').startswith(REST_POSES))
 
     def act_wander(self):
         b, rng = self.body, self.rng

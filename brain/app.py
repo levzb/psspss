@@ -1,8 +1,10 @@
 """The macOS side: a transparent click-through window for the sprite, the menu-bar item,
 mouse (click / drag), scroll riding, and reading the senses (pointer, idle time, active window).
 
-Standing on a Terminal window, the cat moves in: the window becomes its world (world.py), rebuilt
-4 times a second from the text on screen (terminal.py). Dragging it out is the way to leave."""
+The cat lives in a Terminal window: the window is its world (world.py), rebuilt 4 times a second
+from the text on screen (terminal.py). Its own window floats above everything, so it hides the
+pixels that fall outside the Terminal window or under windows in front of it: a browser opened
+over the terminal covers the cat. Dropped anywhere else, it goes back in."""
 import io
 import os
 import random
@@ -55,10 +57,32 @@ def app_windows():
     top = screen_top()
     for w in CGWindowListCopyWindowInfo(
             kCGWindowListOptionOnScreenOnly | kCGWindowListExcludeDesktopElements, kCGNullWindowID):
-        if w['kCGWindowLayer'] == 0:
+        if w['kCGWindowLayer'] == 0 and w.get('kCGWindowAlpha', 1) > 0:
             b = w['kCGWindowBounds']
             left, bottom = b['X'], top - b['Y'] - b['Height']
             yield w['kCGWindowNumber'], w['kCGWindowOwnerPID'], (left, bottom, left + b['Width'], bottom + b['Height'])
+
+
+def clip(box, frame):
+    """The part of box (left, bottom, right, top) inside frame (x, y, w, h), as (x, y, w, h) relative to frame."""
+    l, b, r, t = box
+    x, y, w, h = frame
+    l, b, r, t = max(l, x), max(b, y), min(r, x + w), min(t, y + h)
+    return (l - x, b - y, r - l, t - b) if r > l and t > b else None
+
+
+def hidden_rects(frame, windows, home):
+    """What of the cat's window (frame: x, y, w, h) must not be drawn: everything outside its home
+    window and under the windows in front of it; all of it if home is not among `windows`
+    [(id, pid, box)] (front to back). Rects relative to frame."""
+    ids = [w for w, _, _ in windows]
+    if home not in ids:
+        return [(0, 0, frame[2], frame[3])]
+    k = ids.index(home)
+    l, b, r, t = windows[k][2]
+    x, y, w, h = frame
+    outside = [(x, y, l, y + h), (r, y, x + w, y + h), (x, y, x + w, b), (x, t, x + w, y + h)]
+    return [c for c in (clip(box, frame) for box in [box for _, _, box in windows[:k]] + outside) if c]
 
 
 def window_at(x, y):
@@ -80,6 +104,7 @@ def active_window():
 class CatView(NSView):
     sprite = None
     ctl = None
+    hidden = ()             # view rects not to draw: outside its Terminal window or under other windows
 
     def drawRect_(self, rect):
         NSColor.clearColor().set()
@@ -88,6 +113,9 @@ class CatView(NSView):
             NSGraphicsContext.currentContext().setImageInterpolation_(NSImageInterpolationNone)
             self.sprite.drawInRect_fromRect_operation_fraction_(
                 self.bounds(), NSZeroRect, NSCompositingOperationSourceOver, 1.0)
+            NSColor.clearColor().set()
+            for r in self.hidden:
+                NSRectFillUsingOperation(NSMakeRect(*r), NSCompositingOperationCopy)
 
     def acceptsFirstMouse_(self, event):
         return True
@@ -121,6 +149,9 @@ class Controller(NSObject):
         self.window, self.window_at_t, self.last_poll = None, 0.0, time.monotonic()
         self.home, self.world_t, self.lines = None, 0.0, None   # the Terminal window it lives in
         self.not_terminal = set()   # windows already asked: no text area there
+        self.areas = {}             # window id -> its text area
+        self.last_home = None       # the window it lived in before it was picked up
+        self.missing = None         # since when its window has not been on screen
         self.anchor = None          # (char index, body.moves, its top) of the line it stands on
         self.sound = NSSound.soundNamed_(cfg['sound']) if cfg.get('sound') else None
         self.sound_on = self.sound is not None
@@ -314,14 +345,17 @@ class Controller(NSObject):
             name = self.mind.preempt()
             if name:
                 self.interrupt(self.mind.switch(name))
+        self.hide_covered()
         self.menu_status.setTitle_(f'Кот: {LABELS.get(self.mind.activity, self.mind.activity)} — {self.body.doing}')
         self.menu_needs.setTitle_(self.mind.status().split(' · ', 1)[1])
         if self.dragging:
             return
         loc, fr, s = NSEvent.mouseLocation(), self.win.frame(), self.scale
-        px, py = int((loc.x - fr.origin.x) // s), CELL - 1 - int((loc.y - fr.origin.y) // s)
+        vx, vy = loc.x - fr.origin.x, loc.y - fr.origin.y
+        px, py = int(vx // s), CELL - 1 - int(vy // s)
         alpha = self.sheet.frame(self.ref).getchannel('A')
-        hit = any(alpha.getpixel((x, y)) for x in range(px - 1, px + 2) for y in range(py - 1, py + 2)
+        covered = any(x <= vx < x + w and y <= vy < y + h for x, y, w, h in self.view.hidden)
+        hit = not covered and any(alpha.getpixel((x, y)) for x in range(px - 1, px + 2) for y in range(py - 1, py + 2)
                   if 0 <= x < CELL and 0 <= y < CELL)
         if hit == self.passthrough:
             self.passthrough = not hit
@@ -330,24 +364,50 @@ class Controller(NSObject):
     # ---------------------------------------------------------------- living in a Terminal window
 
     @objc.python_method
-    def refresh_world(self, settle=True):
-        """Rebuild the world from the Terminal window the cat lives in, or move into the one under its paws."""
-        b = self.body
-        if self.home is None:
-            px, py = self.paws_pt()
-            hit = terminal.trusted() and window_at(px, py + 4 * self.scale)   # its legs are on the window
-            if not hit or hit[0] in self.not_terminal:
-                return
-            area = terminal.text_area(hit[1], hit[2])
+    def terminal_windows(self):
+        """On-screen Terminal windows, front to back: (window id, box, text area)."""
+        if not terminal.trusted():
+            return
+        for wid, pid, box in app_windows():
+            if wid in self.not_terminal or box[2] - box[0] < 300 or box[3] - box[1] < 150:
+                continue                                  # not a terminal, or too small to live in
+            area = self.areas.get(wid) or terminal.text_area(pid, box)
             if area is None:
-                self.not_terminal.add(hit[0])
+                self.not_terminal.add(wid)
+                continue
+            self.areas[wid] = area
+            yield wid, box, area
+
+    @objc.python_method
+    def refresh_world(self, settle=True):
+        """Rebuild the world from the Terminal window the cat lives in. Without one (it was dragged
+        out, or its window is gone or on another desktop) move into another: the one under its paws,
+        the last one, or the frontmost."""
+        b = self.body
+        home = self.home
+        shown = {wid for wid, _, _ in app_windows()}
+        if home is not None and home['wid'] not in shown:
+            self.missing = self.missing or time.monotonic()
+            if time.monotonic() - self.missing < 2:       # gone for a moment (a desktop switch): wait for it
                 return
-            self.home = {'wid': hit[0], 'area': area, 'view': None}
-            print(f'{time.strftime("%H:%M:%S")} moved into a Terminal window', flush=True)
+        else:
+            self.missing = None
+        if home is None or home['wid'] not in shown:
+            wins = list(self.terminal_windows())
+            if not wins:
+                return                                   # nowhere to live now: hide_covered hides it
+            px, py = self.paws_pt()
+            under = [w for w in wins if w[1][0] <= px < w[1][2] and w[1][1] <= py + 4 * self.scale < w[1][3]]
+            last = [w for w in wins if self.last_home and w[0] == self.last_home]
+            wid, _, area = (under or last or wins)[0]
+            self.home, self.lines, self.anchor = {'wid': wid, 'area': area, 'view': None}, None, None
+            b.world, b.on_shelf = None, False
+            print(f'{time.strftime("%H:%M:%S")} lives in Terminal window {wid}', flush=True)
         home = self.home
         view = terminal.viewport(home['area'])
-        if view is None or not any(wid == home['wid'] for wid, _, _ in app_windows()):
-            self.leave_world()
+        if view is None:                                 # e.g. another tab: ask for the text area again
+            self.areas.pop(home['wid'], None)
+            self.home = None
             return
         if home['view'] is not None and view != home['view']:      # the window moved: so does the cat
             b.x += (view[0] - home['view'][0]) / self.scale
@@ -358,12 +418,28 @@ class Controller(NSObject):
         if (view, lines) != self.lines:
             self.lines = (view, lines)
             b.world = World(self.box_to_body(view), lines)
-        self.follow_line()
         self.set_bounds()
+        if not (b.lo - 1 <= b.x <= b.hi + 1 and b.lo_y - 1 <= b.y <= b.hi_y + 1):   # outside: in it goes
+            px, py = b.paws
+            spot = b.world.nearest_free(min(max(px, b.lo + CELL / 2), b.hi + CELL / 2), min(max(py, b.lo_y), b.hi_y))
+            if spot:
+                b.x, b.y, b.on_shelf = spot[0] - CELL / 2, spot[1], False
+        self.follow_line()
         if not b.airborne:
             self.place()
         if settle and not b.grounded() and not self.mind.reacting:
             self.interrupt(self.mind.react([{'settle': True}], 'pushed by the text'))
+
+    @objc.python_method
+    def hide_covered(self):
+        """Hide the parts of the cat outside its Terminal window and under windows in front of it."""
+        fr = self.win.frame()
+        frame = (fr.origin.x, fr.origin.y, fr.size.width, fr.size.height)
+        hidden = () if self.dragging else \
+            tuple(hidden_rects(frame, list(app_windows()), self.home and self.home['wid']))
+        if hidden != self.view.hidden:
+            self.view.hidden = hidden
+            self.view.setNeedsDisplay_(True)
 
     @objc.python_method
     def follow_line(self):
@@ -386,8 +462,8 @@ class Controller(NSObject):
 
     @objc.python_method
     def leave_world(self):
-        if self.home is not None:
-            print(f'{time.strftime("%H:%M:%S")} left the Terminal window', flush=True)
+        """Picked up: no world while it hangs in the air."""
+        self.last_home = self.home and self.home['wid']
         self.home = self.anchor = self.lines = None
         self.body.world, self.body.on_shelf, self.body.airborne = None, False, False
         self.set_bounds()
@@ -426,7 +502,7 @@ class Controller(NSObject):
             x, y = self.to_body(fr.origin.x, fr.origin.y)
             b = self.body
             b.x, b.y = x, y + CELL - FEET
-            self.refresh_world(settle=False)          # dropped on a Terminal window: lives there now
+            self.refresh_world(settle=False)          # on a Terminal window it lives there now, else back home
             frames = self.mind.dropped(b.x, b.y)
             line = b.world and b.world.shelf_at(*b.paws, tol=4)
             if line:                                  # put down on a line of text: stays on it

@@ -55,6 +55,33 @@
               ["erase", 21, 0, 32, ["bottom", -6]],
               ["paint", 21, ["bottom", -8], [".ooooo..", "ffffffo.", "fssssso.", ".ooooo.."], {"o": ["1:2", 23, 9], "f": ["1:2", 24, 9], "s": ["1:2", 25, 9]}]]
     }
+,
+    "blink_stand_L": {
+      "note": "eyes shut: the eye (2 px tall) becomes a 2 px line along its bottom, as in the sheet's front blinks; not on skins with glasses over the eye",
+      "from": ["1:2"],
+      "ops": [["paint", {"at": [8, 12], "same": [["1:2", 8, 12], ["1:2", 8, 13], ["1:2", 5, 12]]}, null, ["f.", "aa"], {"f": ["1:2", 9, 12], "a": ["1:2", 8, 12]}]]
+    },
+    "blink_sit_L": {
+      "note": "eyes shut, as blink_stand_L",
+      "from": ["0:2"],
+      "ops": [["paint", {"at": [10, 12], "same": [["0:2", 10, 12], ["0:2", 10, 13], ["0:2", 7, 12]]}, null, ["f.", "aa"], {"f": ["0:2", 11, 12], "a": ["0:2", 10, 12]}]]
+    },
+    "blink_lieside_L": {
+      "note": "eyes shut, as blink_stand_L",
+      "from": ["2:2"],
+      "ops": [["paint", {"at": [9, 14], "same": [["2:2", 9, 14], ["2:2", 9, 15], ["2:2", 6, 14]]}, null, ["f.", "aa"], {"f": ["2:2", 10, 14], "a": ["2:2", 9, 14]}]]
+    },
+    "blink_stand_dL": {
+      "note": "eyes shut, both lines going outwards as in the sheet's front blinks",
+      "from": ["1:4"],
+      "ops": [["paint", {"at": [10, 12], "same": [["1:4", 11, 12], ["1:4", 11, 13], ["1:4", 15, 12], ["1:4", 15, 13], ["1:4", 8, 12]]}, null, [".f...f.", "aa...aa"], {"f": ["1:4", 12, 12], "a": ["1:4", 11, 12]}]]
+    }
+  },
+
+  "tween": {
+    "note": "pet.py tween: in-betweens for every pose link; 'cut' links stay a plain cut (their blends looked wrong in assets/generated/transitions.png)",
+    "ms": 100,
+    "cut": ["stand_L>stand_dL", "stand_dL>stand_F", "stand_L>stand_uL", "crouch_F>sit_F", "sit_F>loaf_L", "sleep_L>stretch_L"]
   },
 
   "poses": {
@@ -77,21 +104,21 @@
   },
 
   "links": [
-    ["stand_L",  "stand_dL",  150],
-    ["stand_dL", "stand_F",   150],
-    ["stand_L",  "stand_uL",  150],
-    ["stand_uL", "stand_B",   150],
-    ["stand_L",  "lower_L",   130],
-    ["lower_L",  "stalk_L",   160],
-    ["stand_F",  "crouch_F",  220],
-    ["crouch_F", "sit_F",     260],
-    ["sit_F",    "loaf_L",    350],
-    ["loaf_L",   "sleep_L",   500],
-    ["sleep_L",  "back_L",    600],
-    ["sleep_L",  "curl_L",    600],
-    ["sleep_L",  "stretch_L", 600],
-    ["stand_L",  "sit_L",     280],
-    ["sit_L",    "lieside_L", 320]
+    ["stand_L",  "stand_dL",  210],
+    ["stand_dL", "stand_F",   210],
+    ["stand_L",  "stand_uL",  210],
+    ["stand_uL", "stand_B",   210],
+    ["stand_L",  "lower_L",   180],
+    ["lower_L",  "stalk_L",   220],
+    ["stand_F",  "crouch_F",  300],
+    ["crouch_F", "sit_F",     350],
+    ["sit_F",    "loaf_L",    450],
+    ["loaf_L",   "sleep_L",   600],
+    ["sleep_L",  "back_L",    750],
+    ["sleep_L",  "curl_L",    750],
+    ["sleep_L",  "stretch_L", 750],
+    ["stand_L",  "sit_L",     380],
+    ["sit_L",    "lieside_L", 420]
   ],
 
   "clips": {
@@ -163,6 +190,15 @@
 
   "intro": {"pose": "stand_R", "play": "walk_R", "times": [3, 6]},
 
+  "calm": {"note": "after each habit the cat stays still in its pose for this long (s); the same habit never twice in a row",
+           "pause": [0.8, 2.2]},
+
+  "blink": {"note": "while it sits still in a pose it blinks now and then (every `every` s of stillness): once, twice, or slowly",
+            "every": [2.5, 6.0], "ms": 140, "slow": 500, "double": 0.25, "slow_chance": 0.1,
+            "frames": {"stand_F": "33:0", "crouch_F": "34:0", "sit_F": "32:0", "loaf_L": "3:2",
+                       "stand_L": "@blink_stand_L:0", "stand_dL": "@blink_stand_dL:0",
+                       "sit_L": "@blink_sit_L:0", "lieside_L": "@blink_lieside_L:0"}},
+
   "behaviour": {
     "stand_L": [
       {"play": "eat_L",  "times": [1, 2], "w": 0.4},
@@ -185,32 +221,32 @@
       {"hold": [1, 3], "w": 1}
     ],
     "stand_F": [
-      {"play": "blink_stand", "w": 2},
+      {"play": "blink_stand", "w": 0.4},
       {"play": "meow_stand",  "w": 0.7},
       {"play": "yawn_stand",  "w": 0.7},
       {"play": "wash_stand",  "w": 0.7},
       {"play": "eat_F", "times": [1, 2], "w": 0.4},
       {"play": "paw_F", "w": 0.4},
-      {"hold": [1, 4], "w": 2}
+      {"hold": [1.5, 4], "w": 2}
     ],
     "lower_L": [{"hold": [0.3, 1], "w": 1}],
     "stalk_L": [{"hold": [0.5, 2], "w": 1}],
     "crouch_F": [
-      {"play": "blink_crouch", "w": 1},
+      {"play": "blink_crouch", "w": 0.4},
       {"play": "meow_crouch",  "w": 0.5},
       {"play": "yawn_crouch",  "w": 0.5},
-      {"hold": [1, 3], "w": 1},
+      {"hold": [1.5, 3], "w": 2},
       {"go": "sit_F",   "w": 2}
     ],
     "sit_F": [
       {"play": "wash_sit",  "times": [1, 3], "w": 3},
-      {"play": "blink_sit", "w": 3},
+      {"play": "blink_sit", "w": 0.4},
       {"play": "yawn_sit",  "w": 1},
       {"play": "meow_sit",  "w": 1},
       {"play": "scratch_a", "w": 0.7},
       {"play": "scratch_b", "w": 0.7},
       {"play": "hind_legs", "w": 0.4},
-      {"hold": [2, 6], "w": 3},
+      {"hold": [2, 6], "w": 4},
       {"go": "loaf_L",  "w": 0.5},
       {"go": "loaf_R",  "w": 0.5}
     ],
@@ -223,11 +259,11 @@
       {"go": "sit_L", "w": 1}
     ],
     "loaf_L": [
-      {"play": "blink_lie_L", "w": 3},
+      {"play": "blink_lie_L", "w": 0.4},
       {"play": "wash_lie_L", "times": [1, 2], "w": 2},
       {"play": "yawn_lie_L", "w": 1},
       {"play": "meow_lie_L", "w": 0.5},
-      {"hold": [3, 8], "w": 3},
+      {"hold": [3, 8], "w": 4},
       {"go": "sit_F",   "w": 0.5}
     ],
     "sleep_L":   [{"play": "breathe_L",         "w": 1}],

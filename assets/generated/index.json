@@ -996,5 +996,1122 @@
       ]
     ],
     "note": "creeping walk: the ground-contact frames of walk_L made like stalk_L"
+  },
+  "blink_stand_L_0.png": {
+    "ref": "@blink_stand_L:0",
+    "from": "1:2",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "paint",
+        {
+          "at": [
+            8,
+            12
+          ],
+          "same": [
+            [
+              "1:2",
+              8,
+              12
+            ],
+            [
+              "1:2",
+              8,
+              13
+            ],
+            [
+              "1:2",
+              5,
+              12
+            ]
+          ]
+        },
+        null,
+        [
+          "f.",
+          "aa"
+        ],
+        {
+          "f": [
+            "1:2",
+            9,
+            12
+          ],
+          "a": [
+            "1:2",
+            8,
+            12
+          ]
+        }
+      ]
+    ],
+    "note": "eyes shut: the eye (2 px tall) becomes a 2 px line along its bottom, as in the sheet's front blinks; not on skins with glasses over the eye"
+  },
+  "blink_sit_L_0.png": {
+    "ref": "@blink_sit_L:0",
+    "from": "0:2",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "paint",
+        {
+          "at": [
+            10,
+            12
+          ],
+          "same": [
+            [
+              "0:2",
+              10,
+              12
+            ],
+            [
+              "0:2",
+              10,
+              13
+            ],
+            [
+              "0:2",
+              7,
+              12
+            ]
+          ]
+        },
+        null,
+        [
+          "f.",
+          "aa"
+        ],
+        {
+          "f": [
+            "0:2",
+            11,
+            12
+          ],
+          "a": [
+            "0:2",
+            10,
+            12
+          ]
+        }
+      ]
+    ],
+    "note": "eyes shut, as blink_stand_L"
+  },
+  "blink_lieside_L_0.png": {
+    "ref": "@blink_lieside_L:0",
+    "from": "2:2",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "paint",
+        {
+          "at": [
+            9,
+            14
+          ],
+          "same": [
+            [
+              "2:2",
+              9,
+              14
+            ],
+            [
+              "2:2",
+              9,
+              15
+            ],
+            [
+              "2:2",
+              6,
+              14
+            ]
+          ]
+        },
+        null,
+        [
+          "f.",
+          "aa"
+        ],
+        {
+          "f": [
+            "2:2",
+            10,
+            14
+          ],
+          "a": [
+            "2:2",
+            9,
+            14
+          ]
+        }
+      ]
+    ],
+    "note": "eyes shut, as blink_stand_L"
+  },
+  "blink_stand_dL_0.png": {
+    "ref": "@blink_stand_dL:0",
+    "from": "1:4",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "paint",
+        {
+          "at": [
+            10,
+            12
+          ],
+          "same": [
+            [
+              "1:4",
+              11,
+              12
+            ],
+            [
+              "1:4",
+              11,
+              13
+            ],
+            [
+              "1:4",
+              15,
+              12
+            ],
+            [
+              "1:4",
+              15,
+              13
+            ],
+            [
+              "1:4",
+              8,
+              12
+            ]
+          ]
+        },
+        null,
+        [
+          ".f...f.",
+          "aa...aa"
+        ],
+        {
+          "f": [
+            "1:4",
+            12,
+            12
+          ],
+          "a": [
+            "1:4",
+            11,
+            12
+          ]
+        }
+      ]
+    ],
+    "note": "eyes shut, both lines going outwards as in the sheet's front blinks"
+  },
+  "tw0.png": {
+    "ref": "@tw0:0",
+    "from": "1:7",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "1:1",
+        0,
+        22,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "1:7",
+        "1:1"
+      ]
+    ],
+    "note": "1:7 with rows 22-32 of 1:1, loose bits dropped"
+  },
+  "tw1.png": {
+    "ref": "@tw1:0",
+    "from": "1:7",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "1:1",
+        0,
+        16,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "1:7",
+        "1:1"
+      ]
+    ],
+    "note": "1:7 with rows 16-32 of 1:1, loose bits dropped"
+  },
+  "tw2.png": {
+    "ref": "@tw2:0",
+    "from": "1:2",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "@lower_L:0",
+        0,
+        0,
+        12,
+        32
+      ],
+      [
+        "tidy",
+        "1:2",
+        "@lower_L:0"
+      ]
+    ],
+    "note": "1:2 with columns 0-12 of @lower_L:0, loose bits dropped"
+  },
+  "tw3.png": {
+    "ref": "@tw3:0",
+    "from": "1:2",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "@lower_L:0",
+        0,
+        0,
+        20,
+        32
+      ],
+      [
+        "tidy",
+        "1:2",
+        "@lower_L:0"
+      ]
+    ],
+    "note": "1:2 with columns 0-20 of @lower_L:0, loose bits dropped"
+  },
+  "tw4.png": {
+    "ref": "@tw4:0",
+    "from": "@lower_L:0",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "@stalk_L:0",
+        0,
+        0,
+        12,
+        32
+      ],
+      [
+        "tidy",
+        "@lower_L:0",
+        "@stalk_L:0"
+      ]
+    ],
+    "note": "@lower_L:0 with columns 0-12 of @stalk_L:0, loose bits dropped"
+  },
+  "tw5.png": {
+    "ref": "@tw5:0",
+    "from": "@lower_L:0",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "@stalk_L:0",
+        0,
+        0,
+        20,
+        32
+      ],
+      [
+        "tidy",
+        "@lower_L:0",
+        "@stalk_L:0"
+      ]
+    ],
+    "note": "@lower_L:0 with columns 0-20 of @stalk_L:0, loose bits dropped"
+  },
+  "tw6.png": {
+    "ref": "@tw6:0",
+    "from": "1:0",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "2:0",
+        0,
+        18,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "1:0",
+        "2:0"
+      ]
+    ],
+    "note": "1:0 with rows 18-32 of 2:0, loose bits dropped"
+  },
+  "tw7.png": {
+    "ref": "@tw7:0",
+    "from": "1:0",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "2:0",
+        0,
+        12,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "1:0",
+        "2:0"
+      ]
+    ],
+    "note": "1:0 with rows 12-32 of 2:0, loose bits dropped"
+  },
+  "tw8.png": {
+    "ref": "@tw8:0",
+    "from": "3:2",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "3:4",
+        18,
+        0,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "3:2",
+        "3:4"
+      ]
+    ],
+    "note": "3:2 with columns 18-32 of 3:4, loose bits dropped"
+  },
+  "tw9.png": {
+    "ref": "@tw9:0",
+    "from": "3:2",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "3:4",
+        12,
+        0,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "3:2",
+        "3:4"
+      ]
+    ],
+    "note": "3:2 with columns 12-32 of 3:4, loose bits dropped"
+  },
+  "tw10.png": {
+    "ref": "@tw10:0",
+    "from": "3:2",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "3:6",
+        0,
+        0,
+        32,
+        14
+      ],
+      [
+        "tidy",
+        "3:2",
+        "3:6"
+      ]
+    ],
+    "note": "3:2 with rows 0-14 of 3:6, loose bits dropped"
+  },
+  "tw11.png": {
+    "ref": "@tw11:0",
+    "from": "3:2",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "3:6",
+        0,
+        0,
+        32,
+        18
+      ],
+      [
+        "tidy",
+        "3:2",
+        "3:6"
+      ]
+    ],
+    "note": "3:2 with rows 0-18 of 3:6, loose bits dropped"
+  },
+  "tw12.png": {
+    "ref": "@tw12:0",
+    "from": "1:2",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "0:2",
+        22,
+        0,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "1:2",
+        "0:2"
+      ]
+    ],
+    "note": "1:2 with columns 22-32 of 0:2, loose bits dropped"
+  },
+  "tw13.png": {
+    "ref": "@tw13:0",
+    "from": "1:2",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "0:2",
+        14,
+        0,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "1:2",
+        "0:2"
+      ]
+    ],
+    "note": "1:2 with columns 14-32 of 0:2, loose bits dropped"
+  },
+  "tw14.png": {
+    "ref": "@tw14:0",
+    "from": "0:2",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "2:2",
+        0,
+        0,
+        32,
+        12
+      ],
+      [
+        "tidy",
+        "0:2",
+        "2:2"
+      ]
+    ],
+    "note": "0:2 with rows 0-12 of 2:2, loose bits dropped"
+  },
+  "tw15.png": {
+    "ref": "@tw15:0",
+    "from": "0:2",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "2:2",
+        0,
+        0,
+        32,
+        18
+      ],
+      [
+        "tidy",
+        "0:2",
+        "2:2"
+      ]
+    ],
+    "note": "0:2 with rows 0-18 of 2:2, loose bits dropped"
+  },
+  "tw16.png": {
+    "ref": "@tw16:0",
+    "from": "1:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "1:4~",
+        0,
+        0,
+        12,
+        32
+      ],
+      [
+        "tidy",
+        "1:2~",
+        "1:4~"
+      ]
+    ],
+    "note": "1:2~ with columns 0-12 of 1:4~, loose bits dropped"
+  },
+  "tw17.png": {
+    "ref": "@tw17:0",
+    "from": "1:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "1:4~",
+        0,
+        0,
+        16,
+        32
+      ],
+      [
+        "tidy",
+        "1:2~",
+        "1:4~"
+      ]
+    ],
+    "note": "1:2~ with columns 0-16 of 1:4~, loose bits dropped"
+  },
+  "tw18.png": {
+    "ref": "@tw18:0",
+    "from": "1:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "1:4~",
+        0,
+        0,
+        20,
+        32
+      ],
+      [
+        "tidy",
+        "1:2~",
+        "1:4~"
+      ]
+    ],
+    "note": "1:2~ with columns 0-20 of 1:4~, loose bits dropped"
+  },
+  "tw19.png": {
+    "ref": "@tw19:0",
+    "from": "1:4~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "1:0",
+        0,
+        0,
+        32,
+        10
+      ],
+      [
+        "tidy",
+        "1:4~",
+        "1:0"
+      ]
+    ],
+    "note": "1:4~ with rows 0-10 of 1:0, loose bits dropped"
+  },
+  "tw20.png": {
+    "ref": "@tw20:0",
+    "from": "1:4~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "1:0",
+        0,
+        0,
+        32,
+        14
+      ],
+      [
+        "tidy",
+        "1:4~",
+        "1:0"
+      ]
+    ],
+    "note": "1:4~ with rows 0-14 of 1:0, loose bits dropped"
+  },
+  "tw21.png": {
+    "ref": "@tw21:0",
+    "from": "1:4~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "1:0",
+        0,
+        0,
+        32,
+        18
+      ],
+      [
+        "tidy",
+        "1:4~",
+        "1:0"
+      ]
+    ],
+    "note": "1:4~ with rows 0-18 of 1:0, loose bits dropped"
+  },
+  "tw22.png": {
+    "ref": "@tw22:0",
+    "from": "1:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "1:7~",
+        0,
+        18,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "1:2~",
+        "1:7~"
+      ]
+    ],
+    "note": "1:2~ with rows 18-32 of 1:7~, loose bits dropped"
+  },
+  "tw23.png": {
+    "ref": "@tw23:0",
+    "from": "1:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "1:7~",
+        0,
+        14,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "1:2~",
+        "1:7~"
+      ]
+    ],
+    "note": "1:2~ with rows 14-32 of 1:7~, loose bits dropped"
+  },
+  "tw24.png": {
+    "ref": "@tw24:0",
+    "from": "1:7~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "1:1",
+        0,
+        18,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "1:7~",
+        "1:1"
+      ]
+    ],
+    "note": "1:7~ with rows 18-32 of 1:1, loose bits dropped"
+  },
+  "tw25.png": {
+    "ref": "@tw25:0",
+    "from": "1:7~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "1:1",
+        0,
+        12,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "1:7~",
+        "1:1"
+      ]
+    ],
+    "note": "1:7~ with rows 12-32 of 1:1, loose bits dropped"
+  },
+  "tw26.png": {
+    "ref": "@tw26:0",
+    "from": "1:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "@lower_L:0~",
+        20,
+        0,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "1:2~",
+        "@lower_L:0~"
+      ]
+    ],
+    "note": "1:2~ with columns 20-32 of @lower_L:0~, loose bits dropped"
+  },
+  "tw27.png": {
+    "ref": "@tw27:0",
+    "from": "1:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "@lower_L:0~",
+        12,
+        0,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "1:2~",
+        "@lower_L:0~"
+      ]
+    ],
+    "note": "1:2~ with columns 12-32 of @lower_L:0~, loose bits dropped"
+  },
+  "tw28.png": {
+    "ref": "@tw28:0",
+    "from": "@lower_L:0~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "@stalk_L:0~",
+        20,
+        0,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "@lower_L:0~",
+        "@stalk_L:0~"
+      ]
+    ],
+    "note": "@lower_L:0~ with columns 20-32 of @stalk_L:0~, loose bits dropped"
+  },
+  "tw29.png": {
+    "ref": "@tw29:0",
+    "from": "@lower_L:0~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "@stalk_L:0~",
+        12,
+        0,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "@lower_L:0~",
+        "@stalk_L:0~"
+      ]
+    ],
+    "note": "@lower_L:0~ with columns 12-32 of @stalk_L:0~, loose bits dropped"
+  },
+  "tw30.png": {
+    "ref": "@tw30:0",
+    "from": "0:0",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "3:0~",
+        24,
+        0,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "0:0",
+        "3:0~"
+      ]
+    ],
+    "note": "0:0 with columns 24-32 of 3:0~, loose bits dropped"
+  },
+  "tw31.png": {
+    "ref": "@tw31:0",
+    "from": "0:0",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "3:0~",
+        18,
+        0,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "0:0",
+        "3:0~"
+      ]
+    ],
+    "note": "0:0 with columns 18-32 of 3:0~, loose bits dropped"
+  },
+  "tw32.png": {
+    "ref": "@tw32:0",
+    "from": "0:0",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "3:0~",
+        14,
+        0,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "0:0",
+        "3:0~"
+      ]
+    ],
+    "note": "0:0 with columns 14-32 of 3:0~, loose bits dropped"
+  },
+  "tw33.png": {
+    "ref": "@tw33:0",
+    "from": "3:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "3:4~",
+        18,
+        0,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "3:2~",
+        "3:4~"
+      ]
+    ],
+    "note": "3:2~ with columns 18-32 of 3:4~, loose bits dropped"
+  },
+  "tw34.png": {
+    "ref": "@tw34:0",
+    "from": "3:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "3:4~",
+        12,
+        0,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "3:2~",
+        "3:4~"
+      ]
+    ],
+    "note": "3:2~ with columns 12-32 of 3:4~, loose bits dropped"
+  },
+  "tw35.png": {
+    "ref": "@tw35:0",
+    "from": "3:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "3:6~",
+        0,
+        0,
+        32,
+        14
+      ],
+      [
+        "tidy",
+        "3:2~",
+        "3:6~"
+      ]
+    ],
+    "note": "3:2~ with rows 0-14 of 3:6~, loose bits dropped"
+  },
+  "tw36.png": {
+    "ref": "@tw36:0",
+    "from": "3:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "3:6~",
+        0,
+        0,
+        32,
+        18
+      ],
+      [
+        "tidy",
+        "3:2~",
+        "3:6~"
+      ]
+    ],
+    "note": "3:2~ with rows 0-18 of 3:6~, loose bits dropped"
+  },
+  "tw37.png": {
+    "ref": "@tw37:0",
+    "from": "3:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "3:9~",
+        24,
+        0,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "3:2~",
+        "3:9~"
+      ]
+    ],
+    "note": "3:2~ with columns 24-32 of 3:9~, loose bits dropped"
+  },
+  "tw38.png": {
+    "ref": "@tw38:0",
+    "from": "3:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "3:9~",
+        14,
+        0,
+        32,
+        32
+      ],
+      [
+        "tidy",
+        "3:2~",
+        "3:9~"
+      ]
+    ],
+    "note": "3:2~ with columns 14-32 of 3:9~, loose bits dropped"
+  },
+  "tw39.png": {
+    "ref": "@tw39:0",
+    "from": "1:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "0:2~",
+        0,
+        0,
+        10,
+        32
+      ],
+      [
+        "tidy",
+        "1:2~",
+        "0:2~"
+      ]
+    ],
+    "note": "1:2~ with columns 0-10 of 0:2~, loose bits dropped"
+  },
+  "tw40.png": {
+    "ref": "@tw40:0",
+    "from": "1:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "0:2~",
+        0,
+        0,
+        18,
+        32
+      ],
+      [
+        "tidy",
+        "1:2~",
+        "0:2~"
+      ]
+    ],
+    "note": "1:2~ with columns 0-18 of 0:2~, loose bits dropped"
+  },
+  "tw41.png": {
+    "ref": "@tw41:0",
+    "from": "0:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "2:2~",
+        0,
+        0,
+        32,
+        12
+      ],
+      [
+        "tidy",
+        "0:2~",
+        "2:2~"
+      ]
+    ],
+    "note": "0:2~ with rows 0-12 of 2:2~, loose bits dropped"
+  },
+  "tw42.png": {
+    "ref": "@tw42:0",
+    "from": "0:2~",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "graft",
+        "2:2~",
+        0,
+        0,
+        32,
+        18
+      ],
+      [
+        "tidy",
+        "0:2~",
+        "2:2~"
+      ]
+    ],
+    "note": "0:2~ with rows 0-18 of 2:2~, loose bits dropped"
   }
 }

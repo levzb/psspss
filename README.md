@@ -17,6 +17,7 @@ A pixel cat that lives on your macOS screen while you work.
 - **Mouse.** Click it and it meows; drag it anywhere. Clicks pass through everywhere else.
 - **Terminal.app.** Inside a Terminal window, empty space is the floor and every line of text is a shelf. The cat walks around the text, jumps onto lines and climbs them. It rides along when you scroll or new output pushes the text up.
 - **Generated frames.** Stalk, creep and pounce frames are built in code from the sheet's pixels and palette.
+- **Transitions.** Sitting, lying down, crouching into a stalk and rolling over in sleep play in-between frames made from the two poses (the rear sits first, the front lies down first). Turns stay quick cuts. No blending, no new colors.
 
 ## Requirements
 
@@ -41,6 +42,7 @@ pick a cat and an accessory, toggle sound, quit.
 | `pet.py sim 8` | simulate an 8-hour working day, print where the time went |
 | `pet.py check` | validate `brain/anim.json`, list pose junctions |
 | `pet.py gen` | write generated frames and a before/after sheet to `assets/generated/` |
+| `pet.py tween` | rebuild the in-betweens (`brain/transitions.json`), preview in `assets/generated/transitions.png` |
 | `pet.py film` | play the promo in the terminal; `vhs film.tape` records it |
 
 ## Layout
@@ -51,6 +53,8 @@ brain/
   anim.json       frames, poses, clips, generated-frame recipes, habits, needs
   config.py       loads anim.json, mirrors left-facing poses and clips
   sprites.py      sheets, layers, generated frames
+  transitions.json  in-between frames for every pose link (made by tween.py)
+  tween.py        builds the in-betweens
   body.py         pose graph, walking, jumping, shelves
   mind.py         needs, choosing and running activities
   world.py        a Terminal window as a world: floor, text, shelves, paths

@@ -86,7 +86,11 @@ def junctions(cfg):
     right = re.compile(r'_[a-z]?R$')
     for a, b, _ in cfg['links']:
         if not (right.search(a) or right.search(b)):
-            rows.append((d(poses[a], poses[b]), f'link  {a} <-> {b}'))
+            seq = [poses[a]] + cfg.get('transitions', {}).get(f'{a}>{b}', []) + [poses[b]]
+            step = max(d(p, q) for p, q in zip(seq, seq[1:]))
+            cut = f'{a}>{b}' in cfg.get('tween', {}).get('cut', [])
+            note = '  (a cut on purpose)' if cut else f'  ({len(seq) - 2} in-betweens)' if len(seq) > 2 else ''
+            rows.append((step, f'link  {a} <-> {b}{note}'))
     for pose, opts in cfg['behaviour'].items():
         if not right.search(pose):
             for o in opts:
@@ -108,5 +112,5 @@ def check(cfg):
         return False
     print(f'pose junctions (px differing out of 1024; >{JUMP} = visible jump)')
     for n, label in junctions(cfg):
-        print(f'  {n:4d} {"JUMP " if n > JUMP else "     "}{label}')
+        print(f'  {n:4d} {"JUMP " if n > JUMP and "on purpose" not in label else "     "}{label}')
     return True

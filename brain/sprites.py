@@ -37,6 +37,26 @@ def find(img, color):
     return None
 
 
+def islands(img):
+    """Groups of opaque pixels touching each other (8 ways), biggest first."""
+    left = {(x, y) for y in range(CELL) for x in range(CELL) if img.getpixel((x, y))[3]}
+    out = []
+    while left:
+        todo = [left.pop()]
+        group = set(todo)
+        while todo:
+            x, y = todo.pop()
+            for dx in (-1, 0, 1):
+                for dy in (-1, 0, 1):
+                    p = (x + dx, y + dy)
+                    if p in left:
+                        left.remove(p)
+                        group.add(p)
+                        todo.append(p)
+        out.append(group)
+    return sorted(out, key=len, reverse=True)
+
+
 def resolve(img, v):
     """A coordinate: a number, ['top', d] (first opaque row + d) or ['bottom', d] (last opaque row + 1 + d)."""
     if isinstance(v, list):
@@ -67,9 +87,33 @@ def apply_op(img, op, sample):
     elif kind == 'erase':                     # clear the box [x0, x1) x [y0, y1)
         x0, y0, x1, y1 = (resolve(img, v) for v in args)
         ImageDraw.Draw(out).rectangle((x0, y0, x1 - 1, y1 - 1), fill=(0, 0, 0, 0))
+    elif kind == 'graft':                     # copy the box [x0, x1) x [y0, y1) of frame `ref` as it is
+        ref, x0, y0, x1, y1 = args
+        for y in range(y0, y1):
+            for x in range(x0, x1):
+                out.putpixel((x, y), sample(ref, x, y))
+    elif kind == 'tidy':                      # drop loose bits, unless they were loose in a source too (whiskers)
+        kept = []
+        for ref in args:
+            src = [[sample(ref, x, y) for x in range(CELL)] for y in range(CELL)]
+            kept.append(src)
+        for group in islands(img)[1:]:
+            ok = False
+            for src in kept:
+                ring = {(x + dx, y + dy) for x, y in group for dx in (-1, 0, 1) for dy in (-1, 0, 1)} - group
+                if all(src[y][x] == img.getpixel((x, y)) for x, y in group) and \
+                        all(not (0 <= x < CELL and 0 <= y < CELL) or not src[y][x][3] for x, y in ring):
+                    ok = True
+            if not ok:
+                for p in group:
+                    out.putpixel(p, (0, 0, 0, 0))
     elif kind == 'paint':                     # draw rows of chars; char -> color of pixel [ref, x, y]
         x, y, rows, keys = args
-        if isinstance(x, dict):               # {'find': [ref, x, y], 'dx', 'dy'}: next to a pixel of that color
+        if isinstance(x, dict) and 'at' in x:  # {'at': [x, y], 'same': [[ref, x, y], ...]}: only if those match
+            if len({sample(*where) for where in x.get('same', [])}) > 1:
+                return out                    # e.g. glasses over the eyes on this skin: leave it be
+            x, y = x['at']
+        elif isinstance(x, dict):             # {'find': [ref, x, y], 'dx', 'dy'}: next to a pixel of that color
             spot = find(img, sample(*x['find']))
             if spot is None:                  # e.g. a hat covers the ear on this skin: leave it be
                 return out
@@ -147,6 +191,11 @@ def write_generated(cfg, out_dir=os.path.join(ROOT, 'assets', 'generated'), zoom
         for i, src_ref in enumerate(recipe['from']):
             ref = f'@{name}:{i}'
             f = sheet.frame(ref)
+            if recipe.get('tween'):           # in-betweens: their before/after is transitions.png
+                f.save(os.path.join(out_dir, f'{name}.png'))
+                index[f'{name}.png'] = {'ref': ref, 'from': src_ref, 'sheet': cfg['sheet'], 'ops': recipe['ops'],
+                                        'note': recipe.get('note', '')}
+                continue
             colors = {p for p in f.get_flattened_data() if p[3]}
             alphas = {p[3] for p in f.get_flattened_data()}
             if not colors <= pal or not alphas <= {0, 255} or (0, 0, 0, 0) in colors:

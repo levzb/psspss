@@ -29,6 +29,8 @@ class Body:
         self.pose, self.doing = 'stand_R', ''
         self.world, self.on_shelf, self.airborne = None, False, False
         self.moves = 0                  # bumped by every jump: tells the app the cat changed lines itself
+        self.last_habit = None          # the clip behave() played last: not again right away
+        self.blink_in = 3000            # ms of stillness to the next blink
 
     # ---- where things are
 
@@ -81,7 +83,11 @@ class Body:
         return steps[::-1]
 
     def go(self, dst):
+        """Change pose along the graph, playing the in-between frames of every link (transitions.json)."""
+        between, between_ms = self.cfg.get('transitions', {}), self.cfg.get('tween', {}).get('ms', 70)
         for pose, ms in self.path(self.pose, dst):
+            for ref in between.get(f'{self.pose}>{pose}', ()):
+                yield ref, between_ms
             self.pose = pose
             yield self.cfg['poses'][pose], ms
 
@@ -93,7 +99,27 @@ class Body:
             yield from self.go(near)
 
     def hold_pose(self, ms=120):
-        yield self.cfg['poses'][self.pose], ms
+        """Stay in the pose for ms. A still cat isn't frozen: now and then it blinks (anim.json blink)."""
+        ref, cfg = self.cfg['poses'][self.pose], self.cfg.get('blink', {})
+        shut = cfg.get('frames', {}).get(self.pose)
+        while shut and ms >= self.blink_in:
+            if self.blink_in > 0:
+                yield ref, self.blink_in
+            ms -= self.blink_in
+            r = self.rng.random()
+            if r < cfg['slow_chance']:
+                seq = [(shut, cfg['slow'])]
+            elif r < cfg['slow_chance'] + cfg['double']:
+                seq = [(shut, cfg['ms']), (ref, 160), (shut, cfg['ms'])]
+            else:
+                seq = [(shut, cfg['ms'])]
+            yield from seq
+            ms -= sum(t for _, t in seq)
+            self.blink_in = int(self.rng.uniform(*cfg['every']) * 1000)
+        if ms > 0:
+            yield ref, ms
+            if shut:
+                self.blink_in -= ms
 
     # ---- clips
 
@@ -127,15 +153,23 @@ class Body:
             yield from self.hold_pose(int(self.rng.uniform(*o['hold']) * 1000))
 
     def behave(self, n, allow=lambda o: True):
-        """n weighted picks from the pose's behaviour table (the cat's small habits)."""
+        """n weighted picks from the pose's behaviour table (the cat's small habits). After a habit
+        it stays still for a while (anim.json calm), and it doesn't do the same one twice in a row."""
+        pause = self.cfg.get('calm', {}).get('pause', [0, 0])
         for _ in range(n):
             opts = [o for o in self.cfg['behaviour'][self.pose] if allow(o) and o.get('go') != self.pose]
+            fresh = [o for o in opts if o.get('play') is None or o['play'] != self.last_habit]
+            opts = fresh or opts
             clip_ok = [o for o in opts if 'play' not in o
                        or self.can_move(sum(self.cfg['clips'][o['play']]['dx']),
                                         sum(self.cfg['clips'][o['play']]['dy']))]
             if not clip_ok:
                 return
-            yield from self.step(self.rng.choices(clip_ok, weights=[o['w'] for o in clip_ok])[0])
+            o = self.rng.choices(clip_ok, weights=[o['w'] for o in clip_ok])[0]
+            yield from self.step(o)
+            self.last_habit = o.get('play')
+            if 'play' in o and pause[1] > 0:
+                yield from self.hold_pose(int(self.rng.uniform(*pause) * 1000))
 
     # ---- getting places
 

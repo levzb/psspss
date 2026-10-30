@@ -4,6 +4,7 @@
     .venv/bin/python pet.py          run the cat (menu-bar 🐱: what it is doing and feeling, ask, skin, sound, quit)
     .venv/bin/python pet.py check    validate brain/anim.json and print pose-junction pixel diffs
     .venv/bin/python pet.py gen      write generated frames + before/after sheet to assets/generated/
+    .venv/bin/python pet.py tween    make in-between frames for every pose link (brain/transitions.json)
     .venv/bin/python pet.py sim [hours] [seed]   simulate a working day, print where the time went
     .venv/bin/python pet.py test     run the tests
     .venv/bin/python pet.py film     play the ~19 s promo in this terminal (vhs film.tape records it)
@@ -26,6 +27,15 @@ def main():
         from brain.sprites import write_generated
         index, path = write_generated(load_config())
         print(f'{len(index)} frames, provenance in assets/generated/index.json, before/after: {path}')
+        return
+    if cmd == 'tween':
+        from brain import tween
+        report = tween.write(load_config(transitions=None))
+        for a, b, cut, step, frames in report:
+            if not a.endswith('R') and not b.endswith('R'):
+                print(f'{a:>10} > {b:<10} cut {cut:4d} -> ' +
+                      ('kept as a cut' if step is None else f'biggest step {step:4d}  ({len(frames)} in-betweens)'))
+        print('before/after:', *tween.preview(load_config(), report))
         return
     if cmd == 'sim':
         from brain.sim import report
