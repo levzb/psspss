@@ -1,0 +1,280 @@
+{
+  "_help": [
+    "Frame ref: 'row:col' on the sheet, 'row:a-b' for a range, '@name:i' = frame i of a generated recipe, trailing '~' = mirrored.",
+    "Names ending in _L / _dL / _uL (left, down-left, up-left) get an automatic _R / _dR / _uR twin (mirrored frames, dx negated) unless the twin is defined here.",
+    "Directions: L, dL, F (down, towards you), dR, R, uR, B (up, away), uL. stand_<dir> poses form a ring, so turning goes through the neighbours.",
+    "generated: frames made in code from sheet frames. ops: squash [row, k] deletes k rows (body drops), erase [x0, y0, x1, y1], shift [dx, dy], paint [x, y | ['top', dy], rows, {char: [ref, x, y]}] where each char takes the color of that sheet pixel and '-' clears. `pet.py gen` writes them to assets/generated/.",
+    "poses: still key frames = nodes of the graph. links: [poseA, poseB, ms] two-way edges; ms = how long the next pose is shown.",
+    "clips: animations that start and end in a pose. ms / dx / dy: one number or one per frame; dx, dy = sprite px moved per frame (dy > 0 is up the screen). cycle: the pose stands in for the last frame (walk loops).",
+    "Steps (behaviour, on_click, on_drop, scroll.edge): play: clip (times = [min,max]), go: pose (path via links), hold: [min_s,max_s], pose: jump straight to a pose, roam: [min_px,max_px] walk to a random spot (run = chance to run).",
+    "behaviour: per pose, the cat's small habits as weighted steps (w). The mind decides what to do; these fill the time in between.",
+    "on_click: per pose, list of alternative step sequences ('default' for the rest). on_drop: steps after being dragged and released.",
+    "scroll: scrolling the window the cat stands on carries the cat with the content. Pushed against the window edge it hangs on (held frame), then plays edge. Scrolled more than wake_after pt in one go, it reacts as if clicked. top_inset: title bar height, pt. line_pt: pt per line for non-trackpad wheels.",
+    "mind: needs (0..1) change per minute by activity; see brain/mind.py for how they pick the next activity."
+  ],
+  "sheet": "assets/sprites/base/cat-1.png",
+  "scale": 3,
+  "sound": "Purr",
+  "held": "43:0",
+
+  "generated": {
+    "lower_L": {
+      "note": "on the way down: small laid-back ears, legs and head half lowered, tail as it was",
+      "from": ["1:2"],
+      "ops": [["paint", {"find": ["1:2", 8, 8], "dx": -3, "dy": -1}, null, ["---------", "----oo---", "--ooeso--", "--offffo-", ".offfffso"], {"o": ["1:2", 23, 9], "f": ["1:2", 24, 9], "s": ["1:2", 25, 9], "e": ["1:2", 8, 8]}],
+              ["squash", ["bottom", -3], 2],
+              ["move", 0, 0, 14, ["bottom", -4], 0, 1]]
+    },
+    "stalk_L": {
+      "note": "stalking: small ears laid back on a round skull, body 1 row flatter, legs 4 rows shorter (only paw tips show), head 2 px lower, low straight tail",
+      "from": ["1:2"],
+      "ops": [["paint", {"find": ["1:2", 8, 8], "dx": -3, "dy": -1}, null, ["---------", "----oo---", "--ooeso--", "--offffo-", ".offfffso"], {"o": ["1:2", 23, 9], "f": ["1:2", 24, 9], "s": ["1:2", 25, 9], "e": ["1:2", 8, 8]}],
+              ["squash", 16, 1],
+              ["squash", ["bottom", -5], 4],
+              ["move", 0, 0, 14, ["bottom", -4], 0, 2],
+              ["erase", 21, 0, 32, ["bottom", -6]],
+              ["paint", 21, ["bottom", -8], [".ooooo..", "ffffffo.", "fssssso.", ".ooooo.."], {"o": ["1:2", 23, 9], "f": ["1:2", 24, 9], "s": ["1:2", 25, 9]}]]
+    },
+    "stalkhi_L": {
+      "note": "stalk 1 px higher: alternating with stalk_L gives the butt wiggle before a pounce",
+      "from": ["1:2"],
+      "ops": [["paint", {"find": ["1:2", 8, 8], "dx": -3, "dy": -1}, null, ["---------", "----oo---", "--ooeso--", "--offffo-", ".offfffso"], {"o": ["1:2", 23, 9], "f": ["1:2", 24, 9], "s": ["1:2", 25, 9], "e": ["1:2", 8, 8]}],
+              ["squash", 16, 1],
+              ["squash", ["bottom", -4], 3],
+              ["move", 0, 0, 14, ["bottom", -4], 0, 2],
+              ["erase", 21, 0, 32, ["bottom", -6]],
+              ["paint", 21, ["bottom", -8], [".ooooo..", "ffffffo.", "fssssso.", ".ooooo.."], {"o": ["1:2", 23, 9], "f": ["1:2", 24, 9], "s": ["1:2", 25, 9]}]]
+    },
+    "creep_L": {
+      "note": "creeping walk: the ground-contact frames of walk_L made like stalk_L",
+      "from": ["7:0", "7:1", "7:3", "7:4", "7:5", "7:7"],
+      "ops": [["paint", {"find": ["1:2", 8, 8], "dx": -3, "dy": -1}, null, ["---------", "----oo---", "--ooeso--", "--offffo-", ".offfffso"], {"o": ["1:2", 23, 9], "f": ["1:2", 24, 9], "s": ["1:2", 25, 9], "e": ["1:2", 8, 8]}],
+              ["squash", 16, 1],
+              ["squash", ["bottom", -5], 4],
+              ["move", 0, 0, 14, ["bottom", -4], 0, 2],
+              ["erase", 21, 0, 32, ["bottom", -6]],
+              ["paint", 21, ["bottom", -8], [".ooooo..", "ffffffo.", "fssssso.", ".ooooo.."], {"o": ["1:2", 23, 9], "f": ["1:2", 24, 9], "s": ["1:2", 25, 9]}]]
+    }
+  },
+
+  "poses": {
+    "stand_L":   "1:2",
+    "stand_dL":  "1:4",
+    "stand_F":   "1:0",
+    "stand_uL":  "1:7",
+    "stand_B":   "1:1",
+    "lower_L":   "@lower_L:0",
+    "stalk_L":   "@stalk_L:0",
+    "crouch_F":  "2:0",
+    "sit_F":     "0:0",
+    "sit_L":     "0:2",
+    "lieside_L": "2:2",
+    "loaf_L":    "3:0",
+    "sleep_L":   "3:2",
+    "back_L":    "3:4",
+    "curl_L":    "3:6",
+    "stretch_L": "3:9"
+  },
+
+  "links": [
+    ["stand_L",  "stand_dL",  150],
+    ["stand_dL", "stand_F",   150],
+    ["stand_L",  "stand_uL",  150],
+    ["stand_uL", "stand_B",   150],
+    ["stand_L",  "lower_L",   130],
+    ["lower_L",  "stalk_L",   160],
+    ["stand_F",  "crouch_F",  220],
+    ["crouch_F", "sit_F",     260],
+    ["sit_F",    "loaf_L",    350],
+    ["loaf_L",   "sleep_L",   500],
+    ["sleep_L",  "back_L",    600],
+    ["sleep_L",  "curl_L",    600],
+    ["sleep_L",  "stretch_L", 600],
+    ["stand_L",  "sit_L",     280],
+    ["sit_L",    "lieside_L", 320]
+  ],
+
+  "clips": {
+    "walk_L":  {"frames": ["7:1-7", "7:0"], "ms": 110, "dx": [-3, -4, -3, -2, -3, -4, -3, -2], "cycle": true},
+    "run_L":   {"frames": ["7:1-7", "7:0"], "ms": 70,  "dx": [-4, -6, -4, -3, -4, -6, -4, -3], "cycle": true},
+    "walk_dL": {"frames": ["8:0-5"], "ms": 120, "dx": -2, "dy": -2, "cycle": true},
+    "run_dL":  {"frames": ["8:0-5"], "ms": 75,  "dx": -3, "dy": -3, "cycle": true},
+    "walk_uL": {"frames": ["11:0-5"], "ms": 120, "dx": -2, "dy": 2, "cycle": true},
+    "run_uL":  {"frames": ["11:0-5"], "ms": 75,  "dx": -3, "dy": 3, "cycle": true},
+    "walk_F":  {"frames": ["4:0-3"], "ms": 140, "dy": -3, "cycle": true},
+    "run_F":   {"frames": ["4:0-3"], "ms": 85,  "dy": -4, "cycle": true},
+    "walk_B":  {"frames": ["5:2-3", "5:0-1"], "ms": 140, "dy": 3, "cycle": true},
+    "run_B":   {"frames": ["5:2-3", "5:0-1"], "ms": 85,  "dy": 4, "cycle": true},
+
+    "creep_L":  {"frames": ["@creep_L:1-5", "@creep_L:0"], "ms": 170, "dx": -1, "cycle": true},
+    "pounce_L": {
+      "frames": ["@stalk_L:0", "@stalkhi_L:0", "@stalk_L:0", "@stalkhi_L:0", "@stalk_L:0",
+                 "7:1", "7:2", "7:2", "7:2", "7:2", "7:3", "@stalk_L:0"],
+      "ms":     [350, 90, 90, 90, 160, 60, 60, 60, 60, 60, 80, 220],
+      "dx":     [0, 0, 0, 0, 0, -2, -5, -5, -5, -5, -2, 0],
+      "dy":     [0, 0, 0, 0, 0, 1, 4, 2, -2, -4, -1, 0]
+    },
+    "jump_L": {
+      "note": "onto / off a line of text: Body.hop spreads the distance over the frames by |dx| and adds dy as the arc",
+      "frames": ["@lower_L:0", "7:1", "7:2", "7:2", "7:2", "7:3", "@lower_L:0"],
+      "ms":     [180, 60, 70, 70, 70, 70, 140],
+      "dx":     [0, -1, -2, -2, -2, -1, 0],
+      "dy":     [0, 1, 3, 1, -1, -3, -1]
+    },
+
+    "eat_L":   {"frames": ["22:0-7"], "ms": 150},
+    "eat_dL":  {"frames": ["24:0-7"], "ms": 150},
+    "eat_uL":  {"frames": ["27:0-7"], "ms": 150},
+    "eat_F":   {"frames": ["20:0-7"], "ms": 150},
+    "eat_B":   {"frames": ["21:0-7"], "ms": 150},
+    "paw_L":   {"frames": ["46:0-6"], "ms": 110},
+    "paw_dL":  {"frames": ["48:0-8"], "ms": 110},
+    "paw_uL":  {"frames": ["51:0-4"], "ms": 110},
+    "paw_F":   {"frames": ["44:0-8"], "ms": 110},
+    "paw_B":   {"frames": ["45:0-4"], "ms": 110},
+
+    "blink_stand": {"frames": ["33:0"],   "ms": 140},
+    "meow_stand":  {"frames": ["29:0-2"], "ms": [120, 450, 200]},
+    "yawn_stand":  {"frames": ["33:0-7"], "ms": [150, 150, 200, 400, 600, 300, 200, 150]},
+    "wash_stand":  {"frames": ["37:0-8"], "ms": 130},
+
+    "blink_crouch":{"frames": ["34:0"],   "ms": 140},
+    "meow_crouch": {"frames": ["30:0-2"], "ms": [120, 450, 200]},
+    "yawn_crouch": {"frames": ["34:0-7"], "ms": [150, 150, 200, 400, 600, 300, 200, 150]},
+
+    "blink_sit":   {"frames": ["32:0"],   "ms": 140},
+    "meow_sit":    {"frames": ["28:0-2"], "ms": [120, 450, 200]},
+    "yawn_sit":    {"frames": ["32:0-7"], "ms": [150, 150, 200, 400, 600, 300, 200, 150]},
+    "wash_sit":    {"frames": ["36:0-8"], "ms": 130},
+    "scratch_a":   {"frames": ["39:0-10"],"ms": 85},
+    "scratch_b":   {"frames": ["40:0-10"],"ms": 85},
+    "hind_legs":   {"frames": ["52:0-3"], "ms": [150, 150, 150, 900], "pingpong": true},
+
+    "blink_lie_L": {"frames": ["3:2"],    "ms": 140},
+    "meow_lie_L":  {"frames": ["31:0-2"], "ms": [120, 450, 200]},
+    "yawn_lie_L":  {"frames": ["35:0-7"], "ms": [150, 150, 200, 400, 600, 300, 200, 150]},
+    "wash_lie_L":  {"frames": ["38:0-6"], "ms": 140},
+
+    "breathe_L":         {"frames": ["12:0-1"], "ms": 1300},
+    "breathe_back_L":    {"frames": ["14:0-1"], "ms": 1300},
+    "breathe_curl_L":    {"frames": ["16:0-1"], "ms": 1400},
+    "breathe_stretch_L": {"frames": ["19:0-1"], "ms": 1300}
+  },
+
+  "intro": {"pose": "stand_R", "play": "walk_R", "times": [3, 6]},
+
+  "behaviour": {
+    "stand_L": [
+      {"play": "eat_L",  "times": [1, 2], "w": 0.4},
+      {"play": "paw_L",  "times": [1, 2], "w": 0.5},
+      {"hold": [1, 4], "w": 2}
+    ],
+    "stand_dL": [
+      {"play": "eat_dL", "times": [1, 2], "w": 0.4},
+      {"play": "paw_dL", "w": 0.5},
+      {"hold": [1, 4], "w": 2}
+    ],
+    "stand_uL": [
+      {"play": "eat_uL", "times": [1, 2], "w": 0.3},
+      {"play": "paw_uL", "w": 0.4},
+      {"hold": [1, 3], "w": 1}
+    ],
+    "stand_B": [
+      {"play": "eat_B",  "w": 0.3},
+      {"play": "paw_B",  "w": 0.4},
+      {"hold": [1, 3], "w": 1}
+    ],
+    "stand_F": [
+      {"play": "blink_stand", "w": 2},
+      {"play": "meow_stand",  "w": 0.7},
+      {"play": "yawn_stand",  "w": 0.7},
+      {"play": "wash_stand",  "w": 0.7},
+      {"play": "eat_F", "times": [1, 2], "w": 0.4},
+      {"play": "paw_F", "w": 0.4},
+      {"hold": [1, 4], "w": 2}
+    ],
+    "lower_L": [{"hold": [0.3, 1], "w": 1}],
+    "stalk_L": [{"hold": [0.5, 2], "w": 1}],
+    "crouch_F": [
+      {"play": "blink_crouch", "w": 1},
+      {"play": "meow_crouch",  "w": 0.5},
+      {"play": "yawn_crouch",  "w": 0.5},
+      {"hold": [1, 3], "w": 1},
+      {"go": "sit_F",   "w": 2}
+    ],
+    "sit_F": [
+      {"play": "wash_sit",  "times": [1, 3], "w": 3},
+      {"play": "blink_sit", "w": 3},
+      {"play": "yawn_sit",  "w": 1},
+      {"play": "meow_sit",  "w": 1},
+      {"play": "scratch_a", "w": 0.7},
+      {"play": "scratch_b", "w": 0.7},
+      {"play": "hind_legs", "w": 0.4},
+      {"hold": [2, 6], "w": 3},
+      {"go": "loaf_L",  "w": 0.5},
+      {"go": "loaf_R",  "w": 0.5}
+    ],
+    "sit_L": [
+      {"hold": [2, 8], "w": 3},
+      {"go": "lieside_L", "w": 1}
+    ],
+    "lieside_L": [
+      {"hold": [4, 12], "w": 3},
+      {"go": "sit_L", "w": 1}
+    ],
+    "loaf_L": [
+      {"play": "blink_lie_L", "w": 3},
+      {"play": "wash_lie_L", "times": [1, 2], "w": 2},
+      {"play": "yawn_lie_L", "w": 1},
+      {"play": "meow_lie_L", "w": 0.5},
+      {"hold": [3, 8], "w": 3},
+      {"go": "sit_F",   "w": 0.5}
+    ],
+    "sleep_L":   [{"play": "breathe_L",         "w": 1}],
+    "back_L":    [{"play": "breathe_back_L",    "w": 1}],
+    "curl_L":    [{"play": "breathe_curl_L",    "w": 1}],
+    "stretch_L": [{"play": "breathe_stretch_L", "w": 1}]
+  },
+
+  "on_click": {
+    "default":   [[{"go": "stand_F"}, {"play": "meow_stand"}]],
+    "stand_F":   [[{"play": "meow_stand"}]],
+    "crouch_F":  [[{"play": "meow_crouch"}]],
+    "sit_F":     [[{"play": "meow_sit"}], [{"play": "meow_sit"}], [{"play": "hind_legs"}]],
+    "loaf_L":    [[{"play": "meow_lie_L"}]],
+    "sleep_L":   [[{"go": "loaf_L"}, {"play": "yawn_lie_L"}]],
+    "back_L":    [[{"go": "loaf_L"}, {"play": "yawn_lie_L"}]],
+    "curl_L":    [[{"go": "loaf_L"}, {"play": "yawn_lie_L"}]],
+    "stretch_L": [[{"go": "loaf_L"}, {"play": "yawn_lie_L"}]]
+  },
+
+  "on_drop": [{"pose": "stand_F"}, {"hold": [0.3, 0.3]}, {"play": "meow_stand"}],
+
+  "scroll": {
+    "edge": [{"pose": "stand_F"}, {"hold": [0.3, 0.3]}, {"play": "meow_stand"}],
+    "wake_after": 500,
+    "top_inset": 30,
+    "line_pt": 16
+  },
+
+  "mind": {
+    "start": {"energy": 0.8, "boredom": 0.3, "affection": 0.3},
+    "per_minute": {
+      "energy":    {"sleep": 0.06, "chase": -0.25, "zoomies": -0.3, "hunt": -0.12, "wander": -0.04, "climb": -0.06, "default": -0.02},
+      "boredom":   {"chase": -0.35, "hunt": -0.25, "zoomies": -0.3, "wander": -0.02, "climb": -0.05, "sleep": 0.0, "default": 0.08},
+      "affection": {"greet": -0.6, "visit": -0.12, "sleep": 0.01, "default": 0.03}
+    },
+    "night": [23, 7],
+    "night_sleepiness": 1.6,
+    "evening": [18, 22],
+    "away_after": 120,
+    "chase":   {"speed": 150, "radius": 140, "boredom": 0.35, "energy": 0.3, "cooldown": 120, "max_s": 10},
+    "hunt":    {"still": [1.5, 6], "radius": 220, "boredom": 0.45, "energy": 0.3, "cooldown": 240},
+    "visit":   {"affection": 0.65, "cooldown": 300, "arrived": -0.35},
+    "zoomies": {"energy": 0.6, "chance": 0.3, "cooldown": 1800},
+    "climb": {"energy": 0.3, "cooldown": 240},
+    "favourite_spot": 0.7,
+    "click":   {"affection": -0.4, "boredom": -0.1},
+    "drop":    {"affection": -0.1}
+  }
+}

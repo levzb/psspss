@@ -1,0 +1,13 @@
+# Licensed sprites and anything derived from them: never commit
+assets/
+*.zip
+*.aseprite
+*.gif
+
+.venv/
+__pycache__/
+.DS_Store
+.pet.lock
+*.log
+brain/memory.json
+*.mp4
