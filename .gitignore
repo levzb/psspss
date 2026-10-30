@@ -4,6 +4,5 @@
 .venv/
 __pycache__/
 .DS_Store
-.pet.lock
 *.log
 brain/memory.json

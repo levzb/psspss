@@ -1,4 +1,4 @@
-"""Tests: `.venv/bin/python pet.py test`."""
+"""Tests: `psspss test`."""
 import math
 import random
 import unittest

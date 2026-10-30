@@ -1,5 +1,6 @@
-"""The macOS side: a transparent click-through window for the sprite, the menu-bar item,
-mouse (click / drag), scroll riding, and reading the senses (pointer, idle time, active window).
+"""The macOS side: a transparent click-through window for the sprite, mouse (click / drag),
+scroll riding, reading the senses (pointer, idle time, active window), and answering `psspss`
+(control.py). No Dock icon, no menu bar item: it is driven from the terminal.
 
 The cat lives in a Terminal window: the window is its world (world.py), rebuilt 4 times a second
 from the text on screen (terminal.py). Its own window floats above everything, so it hides the
@@ -15,8 +16,8 @@ import objc
 from AppKit import (
     NSApplication, NSApplicationActivationPolicyAccessory, NSBackingStoreBuffered, NSColor,
     NSCompositingOperationCopy, NSCompositingOperationSourceOver, NSEvent, NSEventMaskScrollWheel,
-    NSFloatingWindowLevel, NSGraphicsContext, NSImage, NSImageInterpolationNone, NSMenu, NSMenuItem, NSPanel,
-    NSRectFillUsingOperation, NSScreen, NSSound, NSStatusBar, NSVariableStatusItemLength, NSView, NSWorkspace,
+    NSFloatingWindowLevel, NSGraphicsContext, NSImage, NSImageInterpolationNone, NSPanel,
+    NSRectFillUsingOperation, NSScreen, NSSound, NSView, NSWorkspace,
     NSWindowCollectionBehaviorCanJoinAllSpaces, NSWindowCollectionBehaviorFullScreenAuxiliary,
     NSWindowCollectionBehaviorIgnoresCycle, NSWindowCollectionBehaviorStationary,
     NSWindowStyleMaskBorderless, NSWindowStyleMaskNonactivatingPanel,
@@ -28,18 +29,18 @@ from Quartz import (
     kCGWindowListOptionOnScreenOnly,
 )
 
-from . import terminal
+from . import control, terminal
 from .body import CELL, Body
 from .memory import Memory
 from .mind import LABELS, Mind
 from .senses import Tracker
-from .sprites import Sheet, skin_name, skins
+from .sprites import Sheet
 from .world import World
 
 FEET = 25          # first transparent row under the paws of standing poses
 HEAD = 4           # first opaque row of the tallest standing poses
 PAD = 5            # transparent margin inside the cell: lets the cat reach the real screen edge
-ASK = ['hunt', 'chase', 'climb', 'zoomies', 'visit', 'sleep', 'greet']
+ASK = ['hunt', 'chase', 'climb', 'zoomies', 'sleep', 'greet']
 
 
 def timer(seconds, target, selector, repeats):
@@ -135,9 +136,9 @@ class Controller(NSObject):
     def setup(self, cfg):
         self.cfg, self.scale = cfg, cfg['scale']
         self.scroll_cfg = cfg['scroll']
-        self.cats, self.accessories = skins()
-        self.cat, self.accessory = cfg['sheet'], None
-        self.set_skin(cfg['sheet'])
+        prefs = control.prefs()
+        self.cat = prefs.get('cat') if prefs.get('cat') in cfg['cats'] else cfg['cat']
+        self.set_skin(cfg['cats'][self.cat])
         rng = random.Random()
         self.body = Body(cfg, rng)
         self.body.x = -CELL
@@ -154,7 +155,7 @@ class Controller(NSObject):
         self.missing = None         # since when its window has not been on screen
         self.anchor = None          # (char index, body.moves, its top) of the line it stands on
         self.sound = NSSound.soundNamed_(cfg['sound']) if cfg.get('sound') else None
-        self.sound_on = self.sound is not None
+        self.sound_on = self.sound is not None and prefs.get('sound', True)
 
         size = CELL * self.scale
         win = NSPanel.alloc().initWithContentRect_styleMask_backing_defer_(
@@ -174,65 +175,59 @@ class Controller(NSObject):
         win.setContentView_(self.view)
         win.orderFrontRegardless()
         self.win = win
-        self.build_menu()
+        self.server = control.Server()
         self.sense()
         self.step_(None)
         timer(1 / 30, self, 'poll:', True)
         self.monitor = NSEvent.addGlobalMonitorForEventsMatchingMask_handler_(NSEventMaskScrollWheel, self.scrolled)
 
-    # ---------------------------------------------------------------- menu
+    # ---------------------------------------------------------------- psspss
 
     @objc.python_method
-    def item(self, menu, title, action=None, target=None, key=''):
-        it = NSMenuItem.alloc().initWithTitle_action_keyEquivalent_(title, action, key)
-        if target is not None:
-            it.setTarget_(target)
-        menu.addItem_(it)
-        return it
+    def command(self, line):
+        """One line from `psspss`, the answer to print."""
+        cmd, *args = line.split() or ['status']
+        if cmd == 'status':
+            where = 'in a Terminal window' if self.home else 'looking for a Terminal window'
+            access = '' if terminal.trusted() else ' (no access: needs Accessibility for Terminal)'
+            label, needs = self.mind.status().split(' · ', 1)
+            return (f'{label} ({self.body.doing})\n{needs}\n'
+                    f'{self.cat} cat · {where}{access} · sound {"on" if self.sound_on else "off"}')
+        if cmd == 'stop':
+            timer(0.1, self, 'quit:', False)            # after the answer is out
+            return 'bye'
+        if cmd == 'cat':
+            if not args:
+                return '\n'.join(f'{"*" if c == self.cat else " "} {c}' for c in self.cfg['cats'])
+            if args[0] not in self.cfg['cats']:
+                return f'no cat called {args[0]}: {", ".join(self.cfg["cats"])}'
+            self.cat = args[0]
+            control.save_prefs(cat=self.cat)
+            self.set_skin(self.cfg['cats'][self.cat])
+            self.show(self.ref)
+            return self.cat
+        if cmd == 'sound':
+            if self.sound is None:
+                return 'no sound set in anim.json'
+            self.sound_on = {'on': True, 'off': False}.get(args[0] if args else '', not self.sound_on)
+            control.save_prefs(sound=self.sound_on)
+            return f'sound {"on" if self.sound_on else "off"}'
+        if cmd == 'here':
+            wins = list(self.terminal_windows())
+            if not wins:
+                return 'no Terminal window to come to'
+            self.leave_world()
+            self.refresh_world(prefer=wins[0][0])
+            return 'coming'
+        if cmd in ASK:
+            self.asked = cmd
+            timer(2.0, self, 'startAsked:', False)      # time to put the pointer where you want it
+            return f'{LABELS[cmd]} in 2 s'
+        return f'unknown: {cmd}'
 
-    @objc.python_method
-    def build_menu(self):
-        menu = NSMenu.alloc().init()
-        self.menu_status = self.item(menu, '')
-        self.menu_needs = self.item(menu, '')
-        menu.addItem_(NSMenuItem.separatorItem())
-        ask = NSMenu.alloc().init()
-        for name in ASK:
-            it = self.item(ask, f'{LABELS[name]} (через 2 с)', 'ask:', self)
-            it.setRepresentedObject_(name)
-        self.item(menu, 'Попросить').setSubmenu_(ask)
-        self.skin_items = {}
-        for title, kind, paths in (('Кот', 'cat', self.cats), ('Аксессуар', 'accessory', [None] + self.accessories)):
-            sub = NSMenu.alloc().init()
-            for path in paths:
-                it = self.item(sub, skin_name(path) if path else 'без аксессуара', 'chooseSkin:', self)
-                it.setRepresentedObject_([kind, path or ''])
-                it.setState_(path == getattr(self, kind))
-                self.skin_items.setdefault(kind, []).append(it)
-            self.item(menu, title).setSubmenu_(sub)
-        if self.sound is not None:
-            self.item(menu, 'Звук', 'toggleSound:', self).setState_(self.sound_on)
-        menu.addItem_(NSMenuItem.separatorItem())
-        self.item(menu, 'Выйти', 'terminate:', NSApplication.sharedApplication(), 'q')
-        self.status = NSStatusBar.systemStatusBar().statusItemWithLength_(NSVariableStatusItemLength)
-        self.status.button().setTitle_('🐱')
-        self.status.setMenu_(menu)
-
-    def chooseSkin_(self, item):
-        kind, path = item.representedObject()
-        setattr(self, kind, path or None)
-        self.set_skin('+'.join(p for p in (self.cat, self.accessory) if p))
-        for it in self.skin_items[kind]:
-            it.setState_(it is item)
-        self.show(self.ref)
-
-    def toggleSound_(self, item):
-        self.sound_on = not self.sound_on
-        item.setState_(self.sound_on)
-
-    def ask_(self, item):
-        self.asked = item.representedObject()
-        timer(2.0, self, 'startAsked:', False)      # time to put the pointer where you want it
+    def quit_(self, _timer):
+        self.server.close()
+        NSApplication.sharedApplication().terminate_(None)
 
     def startAsked_(self, _timer):
         if not self.dragging:
@@ -346,8 +341,7 @@ class Controller(NSObject):
             if name:
                 self.interrupt(self.mind.switch(name))
         self.hide_covered()
-        self.menu_status.setTitle_(f'Кот: {LABELS.get(self.mind.activity, self.mind.activity)} — {self.body.doing}')
-        self.menu_needs.setTitle_(self.mind.status().split(' · ', 1)[1])
+        self.server.poll(self.command)
         if self.dragging:
             return
         loc, fr, s = NSEvent.mouseLocation(), self.win.frame(), self.scale
@@ -379,10 +373,10 @@ class Controller(NSObject):
             yield wid, box, area
 
     @objc.python_method
-    def refresh_world(self, settle=True):
+    def refresh_world(self, settle=True, prefer=None):
         """Rebuild the world from the Terminal window the cat lives in. Without one (it was dragged
-        out, or its window is gone or on another desktop) move into another: the one under its paws,
-        the last one, or the frontmost."""
+        out, or its window is gone or on another desktop) move into another: `prefer`, the one under
+        its paws, the last one, or the frontmost."""
         b = self.body
         home = self.home
         shown = {wid for wid, _, _ in app_windows()}
@@ -399,7 +393,8 @@ class Controller(NSObject):
             px, py = self.paws_pt()
             under = [w for w in wins if w[1][0] <= px < w[1][2] and w[1][1] <= py + 4 * self.scale < w[1][3]]
             last = [w for w in wins if self.last_home and w[0] == self.last_home]
-            wid, _, area = (under or last or wins)[0]
+            asked = [w for w in wins if w[0] == prefer]
+            wid, _, area = (asked or under or last or wins)[0]
             self.home, self.lines, self.anchor = {'wid': wid, 'area': area, 'view': None}, None, None
             b.world, b.on_shelf = None, False
             print(f'{time.strftime("%H:%M:%S")} lives in Terminal window {wid}', flush=True)
@@ -598,6 +593,6 @@ def run_app(cfg):
     app.setActivationPolicy_(NSApplicationActivationPolicyAccessory)
     ctl = Controller.alloc().init()
     ctl.setup(cfg)
-    signal.signal(signal.SIGINT, lambda *_: app.terminate_(None))
-    signal.signal(signal.SIGTERM, lambda *_: app.terminate_(None))
+    signal.signal(signal.SIGINT, lambda *_: ctl.quit_(None))
+    signal.signal(signal.SIGTERM, lambda *_: ctl.quit_(None))
     app.run()

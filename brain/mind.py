@@ -16,9 +16,9 @@ import math
 
 from .body import CELL
 
-LABELS = {'sleep': 'спит', 'rest': 'отдыхает', 'wander': 'гуляет', 'chase': 'гоняется за курсором',
-          'hunt': 'охотится на курсор', 'greet': 'встречает вас', 'visit': 'пришёл к вашему окну',
-          'zoomies': 'носится', 'react': 'реагирует', 'arrive': 'пришёл', 'climb': 'лазит по тексту'}
+LABELS = {'sleep': 'sleeping', 'rest': 'resting', 'wander': 'wandering', 'chase': 'chasing the pointer',
+          'hunt': 'hunting the pointer', 'greet': 'greeting you', 'visit': 'visiting your window',
+          'zoomies': 'zoomies', 'react': 'reacting', 'arrive': 'arriving', 'climb': 'climbing the text'}
 SLEEP_POSES = ('sleep_', 'back_', 'curl_', 'stretch_')
 BREATHE = {'sleep': 'breathe', 'back': 'breathe_back', 'curl': 'breathe_curl', 'stretch': 'breathe_stretch'}
 REST_POSES = ('sit_', 'loaf_', 'lieside_', 'crouch_')
@@ -59,8 +59,8 @@ class Mind:
 
     def status(self):
         n = self.needs
-        return (f'{LABELS.get(self.activity, self.activity)} · энергия {n["energy"]:.0%} · '
-                f'скука {n["boredom"]:.0%} · хочет внимания {n["affection"]:.0%}')
+        return (f'{LABELS.get(self.activity, self.activity)} · energy {n["energy"]:.0%} · '
+                f'boredom {n["boredom"]:.0%} · wants attention {n["affection"]:.0%}')
 
     # ---------------------------------------------------------------- what the senses say
 

@@ -1,4 +1,4 @@
-"""Run the cat without a screen: a made-up user, simulated time. Used by the tests and `pet.py sim`."""
+"""Run the cat without a screen: a made-up user, simulated time. Used by the tests and `psspss sim`."""
 import collections
 import random
 
@@ -134,6 +134,6 @@ def report(hours=8.0, seed=1, hour=9.0):
     print('  needs at the end:', {k: round(v, 2) for k, v in sim.mind.needs.items()})
     pounces = sum(1 for _, _, _, r in sim.trail if r.startswith('@stalkhi'))
     print(f'  pounces: {pounces // 2}; first hour of activities:')
-    print('   ', ' → '.join(f'{LABELS.get(a, a)}' for t, a in sim.log if t < 3600)[:600])
+    print('   ', ' > '.join(f'{LABELS.get(a, a)}' for t, a in sim.log if t < 3600)[:600])
     return sim
 

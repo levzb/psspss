@@ -4,7 +4,7 @@
 ![Platform: macOS](https://img.shields.io/badge/platform-macOS-lightgrey.svg)
 ![Python 3.14](https://img.shields.io/badge/python-3.14-3776AB.svg)
 
-A pixel cat that lives on your macOS screen while you work.
+A pixel cat that lives in your macOS Terminal window. Started and driven from the command line.
 
 ![pspsps](assets/video/pspsps-promo.gif)
 
@@ -13,10 +13,11 @@ A pixel cat that lives on your macOS screen while you work.
 - **Needs.** Energy, boredom and wish for attention change over time. The cat picks what to do from what it needs most.
 - **Activities.** Walks, rests, washes, sleeps at favourite spots, has evening zoomies.
 - **Cursor play.** Chases a fast pointer; stalks a still one, wiggles and pounces.
-- **You.** Falls asleep when you are away, greets you when you are back, sits on your active window.
-- **Mouse.** Click it and it meows; drag it anywhere. Clicks pass through everywhere else.
-- **Terminal.app.** Inside a Terminal window, empty space is the floor and every line of text is a shelf. The cat walks around the text, jumps onto lines and climbs them. It rides along when you scroll or new output pushes the text up.
-- **Generated frames.** Stalk, creep and pounce frames are built in code from the sheet's pixels and palette.
+- **You.** Falls asleep when you are away, greets you when you are back.
+- **Mouse.** Click it and it purrs; drag it into another Terminal window. Clicks pass through everywhere else.
+- **Terminal.app.** Empty space is the floor and every line of text is a shelf. The cat walks around the text, jumps onto lines and climbs them. It rides along when you scroll or new output pushes the text up. Only the part inside its window shows: a window in front covers it.
+- **Still, not frozen.** Blinks while it sits (eyes-shut frames for the side poses are generated).
+- **Generated frames.** Stalk, creep, pounce and blink frames are built in code from the sheet's pixels and palette.
 - **Transitions.** Sitting, lying down, crouching into a stalk and rolling over in sleep play in-between frames made from the two poses (the rear sits first, the front lies down first). Turns stay quick cuts. No blending, no new colors.
 
 ## Requirements
@@ -24,31 +25,37 @@ A pixel cat that lives on your macOS screen while you work.
 - macOS (tested on 15), Python 3.14
 - Accessibility permission for the terminal you start it from (for the Terminal.app features)
 
-## Run
+## Install
 
 ```sh
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-.venv/bin/python pet.py
+git clone https://github.com/levzb/psspss && cd psspss
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+./psspss install
 ```
 
-The 🐱 menu-bar item shows what the cat is doing and how it feels, and lets you ask for an activity,
-pick a cat and an accessory, toggle sound, quit.
+## Use
 
 | command | |
 |---|---|
-| `pet.py` | run the cat |
-| `pet.py test` | tests |
-| `pet.py sim 8` | simulate an 8-hour working day, print where the time went |
-| `pet.py check` | validate `brain/anim.json`, list pose junctions |
-| `pet.py gen` | write generated frames and a before/after sheet to `assets/generated/` |
-| `pet.py tween` | rebuild the in-betweens (`brain/transitions.json`), preview in `assets/generated/transitions.png` |
-| `pet.py film` | play the promo in the terminal; `vhs film.tape` records it |
+| `psspss` | let the cat in (if it is in: what it is up to) |
+| `psspss stop` | let it out |
+| `psspss status` | what it is doing and how it feels |
+| `psspss here` | call it into the window you are typing in |
+| `psspss cat [grey\|ginger\|white]` | list the cats / switch |
+| `psspss hunt` · `chase` · `climb` · `zoomies` · `sleep` · `greet` | ask it to (2 s to place the pointer) |
+| `psspss sound [on\|off]` | purr on click |
+| `psspss log` | follow what it does |
+
+Dev: `psspss run` (foreground), `test`, `check` (validate `brain/anim.json`), `gen` (generated frames and a
+before/after sheet in `assets/generated/`), `tween` (rebuild `brain/transitions.json`), `sim 8` (simulate an
+8-hour day), `film` (the promo; `vhs film.tape` records it).
+
+Log, settings and the control socket live in `~/.psspss/`.
 
 ## Layout
 
 ```
-pet.py            entry point
+psspss            the command
 brain/
   anim.json       frames, poses, clips, generated-frame recipes, habits, needs
   config.py       loads anim.json, mirrors left-facing poses and clips
@@ -61,7 +68,8 @@ brain/
   terminal.py     Terminal.app text and positions via the Accessibility API
   senses.py       pointer speed and stillness
   memory.py       favourite sleep spots
-  app.py          macOS window, menu, mouse, scrolling
+  app.py          macOS window, mouse, scrolling
+  control.py      how psspss talks to the running cat
   sim.py          headless simulator
   film.py         the promo, drawn with half-block characters
   check.py        config validation

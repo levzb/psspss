@@ -162,7 +162,7 @@ class Promo:
 
         # 1. walks in
         self.cut('a pixel cat that lives in your terminal', [prompt + [('ls', TEXT)],
-                                                               [('README.md  assets  brain  pet.py', DIM)], prompt])
+                                                               [('README.md  assets  brain  psspss', DIM)], prompt])
         self.actor(0, mid - 66, 8, 'stand_R', lambda b: self.walk_in(b, mid))
         self.run(3.0)
 

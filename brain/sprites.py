@@ -8,7 +8,7 @@ Frame refs:  'row:col' on the sheet, '@name:i' = frame i of generated recipe `na
 
 Generated frames are made only by moving and repainting existing pixels with colors
 sampled from the same sheet: no blending, alpha stays 0/255, palette stays the sheet's.
-They are rebuilt on the fly for whatever skin is loaded; `pet.py gen` writes the
+They are rebuilt on the fly for whatever skin is loaded; `psspss gen` writes the
 base-skin results to assets/generated/ with their provenance.
 """
 import json

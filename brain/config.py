@@ -5,7 +5,7 @@ import re
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CONFIG = os.path.join(HERE, 'anim.json')
-TRANSITIONS = os.path.join(HERE, 'transitions.json')     # made by `pet.py tween`
+TRANSITIONS = os.path.join(HERE, 'transitions.json')     # made by `psspss tween`
 RANGE = re.compile(r'(\d+:|@\w+:)(\d+)-(\d+)(~?)')
 
 

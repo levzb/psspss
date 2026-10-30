@@ -1,0 +1,154 @@
+#!/usr/bin/env python3
+"""psspss: a pixel cat that lives in your Terminal window.
+
+  psspss                  let the cat in (if it is in already: what it is up to)
+  psspss stop             let it out
+  psspss status           what it is doing and how it feels
+  psspss here             call it into the window you are typing in
+  psspss cat [name]       list the cats / switch to one
+  psspss hunt | chase | climb | zoomies | sleep | greet
+                          ask it to (2 s to put the pointer where you want it)
+  psspss sound [on|off]   purr when you click it
+  psspss log              follow what it does
+  psspss install          put psspss on your PATH
+
+  dev:  psspss run | test | check | gen | tween | film | sim [hours] [seed]
+"""
+import os
+import sys
+
+HERE = os.path.dirname(os.path.realpath(__file__))
+VENV = os.path.join(HERE, '.venv')
+if os.path.exists(VENV) and os.path.realpath(sys.prefix) != os.path.realpath(VENV):
+    py = os.path.join(VENV, 'bin', 'python')
+    os.execv(py, [py, os.path.realpath(__file__), *sys.argv[1:]])
+sys.path.insert(0, HERE)
+
+import fcntl          # noqa: E402
+import subprocess     # noqa: E402
+import time           # noqa: E402
+
+from brain import control           # noqa: E402
+from brain.config import load_config  # noqa: E402
+
+ASK = ('hunt', 'chase', 'climb', 'zoomies', 'sleep', 'greet')
+TALK = ('stop', 'status', 'here', 'cat', 'sound') + ASK
+
+
+def start():
+    os.makedirs(control.HOME, exist_ok=True)
+    with open(control.LOG, 'a') as log:
+        subprocess.Popen([sys.executable, os.path.realpath(__file__), 'run'], cwd=HERE, stdin=subprocess.DEVNULL,
+                         stdout=log, stderr=log, start_new_session=True)
+    for _ in range(50):
+        time.sleep(0.1)
+        reply = control.send('status')
+        if reply is not None:
+            print('pspsps... here it comes')
+            if 'no access' in reply:
+                print('to live in your Terminal window it needs Accessibility: System Settings > '
+                      'Privacy & Security > Accessibility > Terminal')
+            return
+    sys.exit(f'the cat did not come; see {control.LOG}')
+
+
+def run():
+    """The cat itself, in the foreground."""
+    os.makedirs(control.HOME, exist_ok=True)
+    lock = open(control.LOCK, 'w')
+    try:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        sys.exit('the cat is already in (psspss stop)')
+    from brain.app import run_app
+    run_app(load_config())
+
+
+def install():
+    path = os.environ.get('PATH', '').split(os.pathsep)
+    home_bin = os.path.expanduser('~/.local/bin')
+    spots = [d for d in (home_bin, '/opt/homebrew/bin', '/usr/local/bin') if d in path and os.access(d, os.W_OK)]
+    if not spots:
+        os.makedirs(home_bin, exist_ok=True)
+        spots = [home_bin]
+        print(f'add {home_bin} to your PATH')
+    link = os.path.join(spots[0], 'psspss')
+    if os.path.lexists(link):
+        os.unlink(link)
+    os.symlink(os.path.realpath(__file__), link)
+    print(f'{link} -> {os.path.realpath(__file__)}')
+
+
+def dev(cmd, args):
+    if cmd == 'test':
+        import unittest
+        result = unittest.main(module='brain.tests', argv=['psspss test'], exit=False, verbosity=2).result
+        sys.exit(not result.wasSuccessful())
+    if cmd == 'check':
+        from brain.check import check
+        sys.exit(0 if check(load_config()) else 1)
+    if cmd == 'gen':
+        from brain.sprites import write_generated
+        index, path = write_generated(load_config())
+        print(f'{len(index)} frames, provenance in assets/generated/index.json, before/after: {path}')
+    elif cmd == 'tween':
+        from brain import tween
+        report = tween.write(load_config(transitions=None))
+        for a, b, cut, step, frames in report:
+            if not a.endswith('R') and not b.endswith('R'):
+                print(f'{a:>10} > {b:<10} cut {cut:4d} -> ' +
+                      ('kept as a cut' if step is None else f'biggest step {step:4d}  ({len(frames)} in-betweens)'))
+        print('before/after:', *tween.preview(load_config(), report))
+    elif cmd == 'film':
+        from brain.film import play_film
+        play_film(load_config())
+    elif cmd == 'sim':
+        from brain.sim import report
+        report(hours=float(args[0]) if args else 8.0, seed=int(args[1]) if len(args) > 1 else 1)
+
+
+def cats(name=None):
+    """While the cat is out: list the cats, or pick the one that comes next time."""
+    cfg = load_config()
+    current = control.prefs().get('cat', cfg['cat'])
+    if name is None:
+        return '\n'.join(f'{"*" if c == current else " "} {c}' for c in cfg['cats'])
+    if name not in cfg['cats']:
+        return f'no cat called {name}: {", ".join(cfg["cats"])}'
+    control.save_prefs(cat=name)
+    return f'next time: {name}'
+
+
+def main():
+    cmd, args = (sys.argv[1:2] or [''])[0], sys.argv[2:]
+    if cmd in ('', *TALK):
+        reply = control.send(' '.join([cmd or 'status', *args]))
+        if reply is not None:
+            print(reply)
+        elif cmd == '':
+            start()
+        elif cmd == 'cat':
+            print(cats(*args[:1]))
+        elif cmd == 'sound' and args[:1] in (['on'], ['off']):
+            control.save_prefs(sound=args[0] == 'on')
+            print(f'sound {args[0]}')
+        else:
+            print('the cat is out (psspss lets it in)')
+    elif cmd == 'run':
+        run()
+    elif cmd == 'log':
+        if not os.path.exists(control.LOG):
+            sys.exit('no log yet')
+        os.execvp('tail', ['tail', '-n', '20', '-f', control.LOG])
+    elif cmd == 'install':
+        install()
+    elif cmd in ('test', 'check', 'gen', 'tween', 'film', 'sim'):
+        dev(cmd, args)
+    else:
+        print(__doc__.strip())
+        if cmd not in ('help', '-h', '--help'):
+            sys.exit(1)
+
+
+if __name__ == '__main__':
+    main()

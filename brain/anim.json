@@ -3,7 +3,7 @@
     "Frame ref: 'row:col' on the sheet, 'row:a-b' for a range, '@name:i' = frame i of a generated recipe, trailing '~' = mirrored.",
     "Names ending in _L / _dL / _uL (left, down-left, up-left) get an automatic _R / _dR / _uR twin (mirrored frames, dx negated) unless the twin is defined here.",
     "Directions: L, dL, F (down, towards you), dR, R, uR, B (up, away), uL. stand_<dir> poses form a ring, so turning goes through the neighbours.",
-    "generated: frames made in code from sheet frames. ops: squash [row, k] deletes k rows (body drops), erase [x0, y0, x1, y1], shift [dx, dy], paint [x, y | ['top', dy], rows, {char: [ref, x, y]}] where each char takes the color of that sheet pixel and '-' clears. `pet.py gen` writes them to assets/generated/.",
+    "generated: frames made in code from sheet frames. ops: squash [row, k] deletes k rows (body drops), erase [x0, y0, x1, y1], shift [dx, dy], paint [x, y | ['top', dy], rows, {char: [ref, x, y]}] where each char takes the color of that sheet pixel and '-' clears. `psspss gen` writes them to assets/generated/.",
     "poses: still key frames = nodes of the graph. links: [poseA, poseB, ms] two-way edges; ms = how long the next pose is shown.",
     "clips: animations that start and end in a pose. ms / dx / dy: one number or one per frame; dx, dy = sprite px moved per frame (dy > 0 is up the screen). cycle: the pose stands in for the last frame (walk loops).",
     "Steps (behaviour, on_click, on_drop, scroll.edge): play: clip (times = [min,max]), go: pose (path via links), hold: [min_s,max_s], pose: jump straight to a pose, roam: [min_px,max_px] walk to a random spot (run = chance to run).",
@@ -13,6 +13,9 @@
     "mind: needs (0..1) change per minute by activity; see brain/mind.py for how they pick the next activity."
   ],
   "sheet": "assets/sprites/base/cat-1.png",
+  "cat": "grey",
+  "cats": {"grey": "assets/sprites/base/cat-1.png", "ginger": "assets/sprites/base/cat-1.6.png",
+           "white": "assets/sprites/base/cat-1.9.png"},
   "scale": 3,
   "sound": "Purr",
   "held": "43:0",
@@ -79,7 +82,7 @@
   },
 
   "tween": {
-    "note": "pet.py tween: in-betweens for every pose link; 'cut' links stay a plain cut (their blends looked wrong in assets/generated/transitions.png)",
+    "note": "psspss tween: in-betweens for every pose link; 'cut' links stay a plain cut (their blends looked wrong in assets/generated/transitions.png)",
     "ms": 100,
     "cut": ["stand_L>stand_dL", "stand_dL>stand_F", "stand_L>stand_uL", "crouch_F>sit_F", "sit_F>loaf_L", "sleep_L>stretch_L"]
   },

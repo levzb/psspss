@@ -1,5 +1,5 @@
 {
- "note": "made by `pet.py tween` (brain/tween.py): in-between frames for every pose link",
+ "note": "made by `psspss tween` (brain/tween.py): in-between frames for every pose link",
  "transitions": {
   "stand_uL>stand_B": [
    "@tw0:0",

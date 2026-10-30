@@ -1,4 +1,4 @@
-"""In-between frames for every change of pose (`pet.py tween`).
+"""In-between frames for every change of pose (`psspss tween`).
 
 The pack has no transition clips: going from one key pose to the next is a cut. For every link
 of the pose graph this makes candidate in-betweens out of the two poses themselves, the way an
@@ -159,7 +159,7 @@ def write(cfg, path=OUT):
     for r in recipes.values():
         r['tween'] = True                     # pictured in transitions.png, not in before_after.png
     with open(path, 'w') as f:
-        json.dump({'note': 'made by `pet.py tween` (brain/tween.py): in-between frames for every pose link',
+        json.dump({'note': 'made by `psspss tween` (brain/tween.py): in-between frames for every pose link',
                    'transitions': out, 'generated': recipes}, f, indent=1)
     return report
 
