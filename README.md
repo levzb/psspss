@@ -6,6 +6,8 @@
 
 A pixel cat that lives on your macOS screen while you work.
 
+![pspsps](assets/video/pspsps-promo.gif)
+
 ## Features
 
 - **Needs.** Energy, boredom and wish for attention change over time. The cat picks what to do from what it needs most.
@@ -20,17 +22,6 @@ A pixel cat that lives on your macOS screen while you work.
 
 - macOS (tested on 15), Python 3.14
 - Accessibility permission for the terminal you start it from (for the Terminal.app features)
-- The sprite sheets (not included, see below)
-
-## Art
-
-The sprites are not in this repository. The code expects the 32x32 cat sheets by **Last tick**
-(352x1696 px, 11x53 cells), bought separately:
-
-```
-assets/sprites/base/cat-1.png       # whole cats; the first is the default
-assets/sprites/<set>/<name>.png     # accessory sheets, drawn over the cat
-```
 
 ## Run
 
@@ -71,8 +62,14 @@ brain/
   film.py         the promo, drawn with half-block characters
   check.py        config validation
   tests.py        tests
+assets/
+  sprites/        32x32 sheets, 352x1696 px: base/ cats, valentine/ and winter/ accessories
+  aseprite/       editable sources of the sheets
+  reference/      animation list, frame indexes, palette
+  generated/      frames made in code, their provenance, a before/after sheet
+  video/          the promo
 ```
 
 ## License
 
-Code: [Unlicense](LICENSE). The sprite art is not part of this repository and is under its own license.
+Code: [Unlicense](LICENSE). The cat sprites in `assets/` are by Last tick and are not covered by the Unlicense.

@@ -1,8 +1,5 @@
-# Licensed sprites and anything derived from them: never commit
-assets/
 *.zip
-*.aseprite
-*.gif
+*.mp4
 
 .venv/
 __pycache__/
@@ -10,4 +7,3 @@ __pycache__/
 .pet.lock
 *.log
 brain/memory.json
-*.mp4

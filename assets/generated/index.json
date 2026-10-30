@@ -1,0 +1,1000 @@
+{
+  "lower_L_0.png": {
+    "ref": "@lower_L:0",
+    "from": "1:2",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "paint",
+        {
+          "find": [
+            "1:2",
+            8,
+            8
+          ],
+          "dx": -3,
+          "dy": -1
+        },
+        null,
+        [
+          "---------",
+          "----oo---",
+          "--ooeso--",
+          "--offffo-",
+          ".offfffso"
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ],
+          "e": [
+            "1:2",
+            8,
+            8
+          ]
+        }
+      ],
+      [
+        "squash",
+        [
+          "bottom",
+          -3
+        ],
+        2
+      ],
+      [
+        "move",
+        0,
+        0,
+        14,
+        [
+          "bottom",
+          -4
+        ],
+        0,
+        1
+      ]
+    ],
+    "note": "on the way down: small laid-back ears, legs and head half lowered, tail as it was"
+  },
+  "stalk_L_0.png": {
+    "ref": "@stalk_L:0",
+    "from": "1:2",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "paint",
+        {
+          "find": [
+            "1:2",
+            8,
+            8
+          ],
+          "dx": -3,
+          "dy": -1
+        },
+        null,
+        [
+          "---------",
+          "----oo---",
+          "--ooeso--",
+          "--offffo-",
+          ".offfffso"
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ],
+          "e": [
+            "1:2",
+            8,
+            8
+          ]
+        }
+      ],
+      [
+        "squash",
+        16,
+        1
+      ],
+      [
+        "squash",
+        [
+          "bottom",
+          -5
+        ],
+        4
+      ],
+      [
+        "move",
+        0,
+        0,
+        14,
+        [
+          "bottom",
+          -4
+        ],
+        0,
+        2
+      ],
+      [
+        "erase",
+        21,
+        0,
+        32,
+        [
+          "bottom",
+          -6
+        ]
+      ],
+      [
+        "paint",
+        21,
+        [
+          "bottom",
+          -8
+        ],
+        [
+          ".ooooo..",
+          "ffffffo.",
+          "fssssso.",
+          ".ooooo.."
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ]
+        }
+      ]
+    ],
+    "note": "stalking: small ears laid back on a round skull, body 1 row flatter, legs 4 rows shorter (only paw tips show), head 2 px lower, low straight tail"
+  },
+  "stalkhi_L_0.png": {
+    "ref": "@stalkhi_L:0",
+    "from": "1:2",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "paint",
+        {
+          "find": [
+            "1:2",
+            8,
+            8
+          ],
+          "dx": -3,
+          "dy": -1
+        },
+        null,
+        [
+          "---------",
+          "----oo---",
+          "--ooeso--",
+          "--offffo-",
+          ".offfffso"
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ],
+          "e": [
+            "1:2",
+            8,
+            8
+          ]
+        }
+      ],
+      [
+        "squash",
+        16,
+        1
+      ],
+      [
+        "squash",
+        [
+          "bottom",
+          -4
+        ],
+        3
+      ],
+      [
+        "move",
+        0,
+        0,
+        14,
+        [
+          "bottom",
+          -4
+        ],
+        0,
+        2
+      ],
+      [
+        "erase",
+        21,
+        0,
+        32,
+        [
+          "bottom",
+          -6
+        ]
+      ],
+      [
+        "paint",
+        21,
+        [
+          "bottom",
+          -8
+        ],
+        [
+          ".ooooo..",
+          "ffffffo.",
+          "fssssso.",
+          ".ooooo.."
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ]
+        }
+      ]
+    ],
+    "note": "stalk 1 px higher: alternating with stalk_L gives the butt wiggle before a pounce"
+  },
+  "creep_L_0.png": {
+    "ref": "@creep_L:0",
+    "from": "7:0",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "paint",
+        {
+          "find": [
+            "1:2",
+            8,
+            8
+          ],
+          "dx": -3,
+          "dy": -1
+        },
+        null,
+        [
+          "---------",
+          "----oo---",
+          "--ooeso--",
+          "--offffo-",
+          ".offfffso"
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ],
+          "e": [
+            "1:2",
+            8,
+            8
+          ]
+        }
+      ],
+      [
+        "squash",
+        16,
+        1
+      ],
+      [
+        "squash",
+        [
+          "bottom",
+          -5
+        ],
+        4
+      ],
+      [
+        "move",
+        0,
+        0,
+        14,
+        [
+          "bottom",
+          -4
+        ],
+        0,
+        2
+      ],
+      [
+        "erase",
+        21,
+        0,
+        32,
+        [
+          "bottom",
+          -6
+        ]
+      ],
+      [
+        "paint",
+        21,
+        [
+          "bottom",
+          -8
+        ],
+        [
+          ".ooooo..",
+          "ffffffo.",
+          "fssssso.",
+          ".ooooo.."
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ]
+        }
+      ]
+    ],
+    "note": "creeping walk: the ground-contact frames of walk_L made like stalk_L"
+  },
+  "creep_L_1.png": {
+    "ref": "@creep_L:1",
+    "from": "7:1",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "paint",
+        {
+          "find": [
+            "1:2",
+            8,
+            8
+          ],
+          "dx": -3,
+          "dy": -1
+        },
+        null,
+        [
+          "---------",
+          "----oo---",
+          "--ooeso--",
+          "--offffo-",
+          ".offfffso"
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ],
+          "e": [
+            "1:2",
+            8,
+            8
+          ]
+        }
+      ],
+      [
+        "squash",
+        16,
+        1
+      ],
+      [
+        "squash",
+        [
+          "bottom",
+          -5
+        ],
+        4
+      ],
+      [
+        "move",
+        0,
+        0,
+        14,
+        [
+          "bottom",
+          -4
+        ],
+        0,
+        2
+      ],
+      [
+        "erase",
+        21,
+        0,
+        32,
+        [
+          "bottom",
+          -6
+        ]
+      ],
+      [
+        "paint",
+        21,
+        [
+          "bottom",
+          -8
+        ],
+        [
+          ".ooooo..",
+          "ffffffo.",
+          "fssssso.",
+          ".ooooo.."
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ]
+        }
+      ]
+    ],
+    "note": "creeping walk: the ground-contact frames of walk_L made like stalk_L"
+  },
+  "creep_L_2.png": {
+    "ref": "@creep_L:2",
+    "from": "7:3",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "paint",
+        {
+          "find": [
+            "1:2",
+            8,
+            8
+          ],
+          "dx": -3,
+          "dy": -1
+        },
+        null,
+        [
+          "---------",
+          "----oo---",
+          "--ooeso--",
+          "--offffo-",
+          ".offfffso"
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ],
+          "e": [
+            "1:2",
+            8,
+            8
+          ]
+        }
+      ],
+      [
+        "squash",
+        16,
+        1
+      ],
+      [
+        "squash",
+        [
+          "bottom",
+          -5
+        ],
+        4
+      ],
+      [
+        "move",
+        0,
+        0,
+        14,
+        [
+          "bottom",
+          -4
+        ],
+        0,
+        2
+      ],
+      [
+        "erase",
+        21,
+        0,
+        32,
+        [
+          "bottom",
+          -6
+        ]
+      ],
+      [
+        "paint",
+        21,
+        [
+          "bottom",
+          -8
+        ],
+        [
+          ".ooooo..",
+          "ffffffo.",
+          "fssssso.",
+          ".ooooo.."
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ]
+        }
+      ]
+    ],
+    "note": "creeping walk: the ground-contact frames of walk_L made like stalk_L"
+  },
+  "creep_L_3.png": {
+    "ref": "@creep_L:3",
+    "from": "7:4",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "paint",
+        {
+          "find": [
+            "1:2",
+            8,
+            8
+          ],
+          "dx": -3,
+          "dy": -1
+        },
+        null,
+        [
+          "---------",
+          "----oo---",
+          "--ooeso--",
+          "--offffo-",
+          ".offfffso"
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ],
+          "e": [
+            "1:2",
+            8,
+            8
+          ]
+        }
+      ],
+      [
+        "squash",
+        16,
+        1
+      ],
+      [
+        "squash",
+        [
+          "bottom",
+          -5
+        ],
+        4
+      ],
+      [
+        "move",
+        0,
+        0,
+        14,
+        [
+          "bottom",
+          -4
+        ],
+        0,
+        2
+      ],
+      [
+        "erase",
+        21,
+        0,
+        32,
+        [
+          "bottom",
+          -6
+        ]
+      ],
+      [
+        "paint",
+        21,
+        [
+          "bottom",
+          -8
+        ],
+        [
+          ".ooooo..",
+          "ffffffo.",
+          "fssssso.",
+          ".ooooo.."
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ]
+        }
+      ]
+    ],
+    "note": "creeping walk: the ground-contact frames of walk_L made like stalk_L"
+  },
+  "creep_L_4.png": {
+    "ref": "@creep_L:4",
+    "from": "7:5",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "paint",
+        {
+          "find": [
+            "1:2",
+            8,
+            8
+          ],
+          "dx": -3,
+          "dy": -1
+        },
+        null,
+        [
+          "---------",
+          "----oo---",
+          "--ooeso--",
+          "--offffo-",
+          ".offfffso"
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ],
+          "e": [
+            "1:2",
+            8,
+            8
+          ]
+        }
+      ],
+      [
+        "squash",
+        16,
+        1
+      ],
+      [
+        "squash",
+        [
+          "bottom",
+          -5
+        ],
+        4
+      ],
+      [
+        "move",
+        0,
+        0,
+        14,
+        [
+          "bottom",
+          -4
+        ],
+        0,
+        2
+      ],
+      [
+        "erase",
+        21,
+        0,
+        32,
+        [
+          "bottom",
+          -6
+        ]
+      ],
+      [
+        "paint",
+        21,
+        [
+          "bottom",
+          -8
+        ],
+        [
+          ".ooooo..",
+          "ffffffo.",
+          "fssssso.",
+          ".ooooo.."
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ]
+        }
+      ]
+    ],
+    "note": "creeping walk: the ground-contact frames of walk_L made like stalk_L"
+  },
+  "creep_L_5.png": {
+    "ref": "@creep_L:5",
+    "from": "7:7",
+    "sheet": "assets/sprites/base/cat-1.png",
+    "ops": [
+      [
+        "paint",
+        {
+          "find": [
+            "1:2",
+            8,
+            8
+          ],
+          "dx": -3,
+          "dy": -1
+        },
+        null,
+        [
+          "---------",
+          "----oo---",
+          "--ooeso--",
+          "--offffo-",
+          ".offfffso"
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ],
+          "e": [
+            "1:2",
+            8,
+            8
+          ]
+        }
+      ],
+      [
+        "squash",
+        16,
+        1
+      ],
+      [
+        "squash",
+        [
+          "bottom",
+          -5
+        ],
+        4
+      ],
+      [
+        "move",
+        0,
+        0,
+        14,
+        [
+          "bottom",
+          -4
+        ],
+        0,
+        2
+      ],
+      [
+        "erase",
+        21,
+        0,
+        32,
+        [
+          "bottom",
+          -6
+        ]
+      ],
+      [
+        "paint",
+        21,
+        [
+          "bottom",
+          -8
+        ],
+        [
+          ".ooooo..",
+          "ffffffo.",
+          "fssssso.",
+          ".ooooo.."
+        ],
+        {
+          "o": [
+            "1:2",
+            23,
+            9
+          ],
+          "f": [
+            "1:2",
+            24,
+            9
+          ],
+          "s": [
+            "1:2",
+            25,
+            9
+          ]
+        }
+      ]
+    ],
+    "note": "creeping walk: the ground-contact frames of walk_L made like stalk_L"
+  }
+}
